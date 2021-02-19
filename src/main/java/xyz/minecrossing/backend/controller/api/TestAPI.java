@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface TestAPI {
 
     @GetMapping("/")
-    ResponseEntity<String> api();
+    ResponseEntity<Object> api();
 
     @GetMapping("/test")
-    ResponseEntity<String> test();
+    ResponseEntity<Object> test();
 
 }
