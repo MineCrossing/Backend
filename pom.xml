@@ -29,10 +29,18 @@
             <artifactId>CoreUtilities</artifactId>
             <version>1.0.0</version>
         </dependency>
+
         <!-- RedisAPI -->
         <dependency>
             <groupId>xyz.minecrossing</groupId>
             <artifactId>RedisAPI</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- DatabaseConnector -->
+        <dependency>
+            <groupId>xyz.minecrossing</groupId>
+            <artifactId>DatabaseConnector</artifactId>
             <version>1.0.0</version>
         </dependency>
 
