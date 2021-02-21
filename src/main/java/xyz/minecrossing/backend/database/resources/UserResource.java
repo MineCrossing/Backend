@@ -1,5 +1,6 @@
 package xyz.minecrossing.backend.database.resources;
 
+import xyz.minecrossing.backend.database.helpers.QueryBuilder;
 import xyz.minecrossing.backend.database.interfaces.IUserResource;
 import xyz.minecrossing.coreutilities.dbmodels.User;
 import xyz.minecrossing.coreutilities.dbmodels.builders.UserBuilder;
@@ -17,13 +18,20 @@ public class UserResource extends MineCrossingResource implements IUserResource 
 	public UserResource() {
 	}
 
+	private QueryBuilder queryBuilder() {
+		return new QueryBuilder("users");
+	}
+
 	@Override
 	public List<User> getAll() {
 		List<User> users = new ArrayList<>();
 
 		try {
 			Connection con = getConnection();
-			ResultSet rs = con.prepareStatement("select user_id, email, password, admin, created_date, username from users;").executeQuery();
+			ResultSet rs = con
+					.prepareStatement(queryBuilder().select("user_id", "email", "password", "admin", "created_date", "username").build())
+					.executeQuery();
+
 			while (rs.next()) {
 				users.add(new UserBuilder()
 						.setUserID(UUID.fromString(rs.getString(1)))
@@ -46,7 +54,7 @@ public class UserResource extends MineCrossingResource implements IUserResource 
 	public boolean Add(User user) {
 		try {
 			Connection con = getConnection();
-			PreparedStatement ps = con.prepareStatement("insert into users (user_id, email, password, admin, created_date, username) values (?, ?, ?, ?, ?, ?)");
+			PreparedStatement ps = con.prepareStatement(queryBuilder().insert("user_id", "email", "password", "admin", "created_date", "username").build());
 			ps.setString(1, user.getUserID().toString());
 			ps.setString(2, user.getEmail());
 			ps.setString(3, user.getPassword());
@@ -67,17 +75,12 @@ public class UserResource extends MineCrossingResource implements IUserResource 
 	}
 
 	@Override
-	public <K> User Find(K key) {
-		if (!(key instanceof String))
-			throw new IllegalArgumentException("Key must be of type String");
-
-		String k = (String) key;
-
+	public User Find(String key) {
 		try {
 			Connection con = getConnection();
 
-			PreparedStatement ps = con.prepareStatement("select user_id, email, password, admin, created_date, username from users where user_id = ?;");
-			ps.setString(1, k);
+			PreparedStatement ps = con.prepareStatement(queryBuilder().select("user_id", "email", "password", "admin", "created_date", "username").customWhere("user_id = ?").build());
+			ps.setString(1, key);
 
 			ResultSet rs = ps.executeQuery();
 

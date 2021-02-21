@@ -1,11 +1,11 @@
 package xyz.minecrossing.backend;
 
-import xyz.minecrossing.backend.database.DBTest;
+import xyz.minecrossing.backend.database.QueryBuilderTests;
+
 
 // For testing random code
 public class TestApp {
 	public static void main(String[] args) {
-		DBTest.runTests();
-		System.out.println("woo");
+		QueryBuilderTests.runTests();
 	}
 }

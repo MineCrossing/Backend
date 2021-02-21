@@ -1,6 +1,12 @@
 package xyz.minecrossing.backend.database.interfaces;
 
-public interface ICRUDResource<T> {
+/**
+ * An interface for a simple CRUD database resource
+ *
+ * @param <T> The entity type
+ * @param <K> The entity's primary key type
+ */
+public interface ICRUDResource<T, K> {
 	boolean Add(T entity);
-	<K> T Find(K key);
+	T Find(K key);
 }
