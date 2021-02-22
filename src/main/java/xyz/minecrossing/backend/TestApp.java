@@ -1,5 +1,6 @@
 package xyz.minecrossing.backend;
 
+import xyz.minecrossing.backend.database.DBTest;
 import xyz.minecrossing.backend.database.QueryBuilderTests;
 
 
@@ -7,5 +8,6 @@ import xyz.minecrossing.backend.database.QueryBuilderTests;
 public class TestApp {
 	public static void main(String[] args) {
 		QueryBuilderTests.runTests();
+		DBTest.runTests();
 	}
 }

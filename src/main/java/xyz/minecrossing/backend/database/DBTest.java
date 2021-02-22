@@ -2,19 +2,34 @@ package xyz.minecrossing.backend.database;
 
 
 import xyz.minecrossing.coreutilities.dbmodels.User;
+import xyz.minecrossing.coreutilities.dbmodels.builders.BlogCommentBuilder;
+import xyz.minecrossing.coreutilities.dbmodels.builders.BlogPostBuilder;
 import xyz.minecrossing.coreutilities.dbmodels.builders.UserBuilder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.UUID;
 
 public class DBTest {
+	static final String TEST_USER_ID = "05f8d3ed-7b8a-4a74-8bb5-6176b52c88ec";
+	static final String TEST_BLOGPOST_ID = "09f8bfec-8b2a-a47f-2cd4-61d2b52a8fe7";
+	static final String TEST_BLOGCOMMENT_ID = "8bf8bfec-8b2a-a47f-2cd4-6bb2b52a88ea";
 	static MineCrossingDB db = MineCrossingDB.getInstance();
 
 	public static void runTests() {
+		System.out.println("****************** USER TESTS ******************");
 		addUser();
 		findUser();
 		getUsers();
+		System.out.println();
+		System.out.println("****************** BLOG POST TESTS ******************");
+		addBlogPost();
+		findBlogPost();
+		System.out.println();
+		System.out.println("****************** BLOG COMMENT TESTS ******************");
+		addBlogComment();
+		findBlogComment();
 	}
 
 	public static void addUser() {
@@ -22,7 +37,7 @@ public class DBTest {
 		String somewhatUniqueUsername = id.toString().substring(0, new Random().nextInt(5) + (new Random().nextInt(5)));
 		System.out.println("Adding user: " + somewhatUniqueUsername);
 
-		boolean result = db.Users.Add(new UserBuilder()
+		boolean result = db.Users.add(new UserBuilder()
 				.setAdmin(false)
 				.setCreatedDate(LocalDate.now())
 				.setEmail(somewhatUniqueUsername + "@fake.com")
@@ -36,10 +51,9 @@ public class DBTest {
 	}
 
 	public static void findUser() {
-		String id = "05f8d3ed-7b8a-4a74-8bb5-6176b52c88ec";
-		System.out.println("Finding user with ID: " + id);
+		System.out.println("Finding user with ID: " + TEST_USER_ID);
 
-		User user = db.Users.Find(id);
+		User user = db.Users.find(TEST_USER_ID);
 
 		System.out.println(user == null ? "Failed to find user" : "Found user: " + user.getUsername());
 		System.out.println();
@@ -48,6 +62,53 @@ public class DBTest {
 	public static void getUsers() {
 		System.out.println("Finding Users...");
 		System.out.println("Found " + db.Users.getAll().size() + " total users.");
+		System.out.println();
+	}
+
+	public static void addBlogPost() {
+		boolean result = db.BlogPosts.add(new BlogPostBuilder()
+				.setBlogPostID(UUID.randomUUID())
+				.setUserID(UUID.fromString(TEST_USER_ID))
+				.setTitle("A Random Blogpost")
+				.setSubtitle("Sub-title")
+				.setAuthor("Matthew Dodds")
+				.setContent("Why tip someone for a job I'm capable of doing myself? I can deliver food. I can drive a taxi. I can, and do, cut my own hair. I did however, tip my urologist, because I am unable to pulverize my own kidney stones.")
+				.setCreatedDate(LocalDateTime.now())
+				.build());
+
+		System.out.println(result ? "Successfully added Blog Post" : "Failed to add Blog Post");
+		System.out.println();
+	}
+
+	public static void findBlogPost() {
+		System.out.println("Finding Blog Post with ID: " + TEST_BLOGPOST_ID);
+
+		var bp = db.BlogPosts.find(TEST_BLOGPOST_ID);
+
+		System.out.println(bp == null ? "Failed to find Blog Post" : "Found Blog Post by: " + bp.getAuthor());
+		System.out.println();
+	}
+
+	public static void addBlogComment() {
+		boolean result = db.BlogComments.add(new BlogCommentBuilder()
+				.setBlogCommentID(UUID.randomUUID())
+				.setBlogPostID(UUID.fromString(TEST_BLOGPOST_ID))
+				.setUserID(UUID.fromString(TEST_USER_ID))
+				.setMessage("Dolphins get a lot of good publicity for the drowning swimmers they push back to shore, but what you don't hear about is the many people they push farther out to sea. Dolphins aren't smart. They just like pushing things")
+				.setCreatedDate(LocalDateTime.now())
+				.build()
+		);
+
+		System.out.println(result ? "Successfully added Blog Post Comment" : "Failed to add Blog Post Comment");
+		System.out.println();
+	}
+
+	public static void findBlogComment() {
+		System.out.println("Finding Blog Post Comment with ID: " + TEST_BLOGCOMMENT_ID);
+
+		var bp = db.BlogComments.find(TEST_BLOGCOMMENT_ID);
+
+		System.out.println(bp == null ? "Failed to find Blog Post Comment" : "Found Blog Post Comment: " + bp.getKey());
 		System.out.println();
 	}
 
