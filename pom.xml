@@ -51,6 +51,14 @@
             <version>2.8.6</version>
         </dependency>
 
+        <!-- SQL20  -->
+        <dependency>
+            <groupId>org.sql2o</groupId>
+            <artifactId>sql2o</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+
+
         <!-- Spring Dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

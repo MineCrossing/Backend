@@ -21,14 +21,17 @@ public class DBTest {
 		System.out.println("****************** USER TESTS ******************");
 		addUser();
 		findUser();
+		updateUser();
 		getUsers();
 		System.out.println();
 		System.out.println("****************** BLOG POST TESTS ******************");
 		addBlogPost();
+		updateBlogPost();
 		findBlogPost();
 		System.out.println();
 		System.out.println("****************** BLOG COMMENT TESTS ******************");
 		addBlogComment();
+		updateBlogComment();
 		findBlogComment();
 	}
 
@@ -42,7 +45,7 @@ public class DBTest {
 				.setCreatedDate(LocalDate.now())
 				.setEmail(somewhatUniqueUsername + "@fake.com")
 				.setPassword("pass")
-				.setUserID(id)
+				.setUserID(id.toString())
 				.setUsername(somewhatUniqueUsername)
 				.build());
 
@@ -59,6 +62,18 @@ public class DBTest {
 		System.out.println();
 	}
 
+	public static void updateUser() {
+		var user = db.Users.find(TEST_USER_ID);
+		user.setEmail("U" + user.getEmail());
+		user.setUsername(user.getUsername() + 1);
+
+
+		var result = db.Users.update(user);
+
+		System.out.println(result ? "Successfully updated user" : "Failed to update user");
+		System.out.println();
+	}
+
 	public static void getUsers() {
 		System.out.println("Finding Users...");
 		System.out.println("Found " + db.Users.getAll().size() + " total users.");
@@ -67,8 +82,8 @@ public class DBTest {
 
 	public static void addBlogPost() {
 		boolean result = db.BlogPosts.add(new BlogPostBuilder()
-				.setBlogPostID(UUID.randomUUID())
-				.setUserID(UUID.fromString(TEST_USER_ID))
+				.setBlogPostID(UUID.randomUUID().toString())
+				.setUserID(TEST_USER_ID)
 				.setTitle("A Random Blogpost")
 				.setSubtitle("Sub-title")
 				.setAuthor("Matthew Dodds")
@@ -79,6 +94,19 @@ public class DBTest {
 		System.out.println(result ? "Successfully added Blog Post" : "Failed to add Blog Post");
 		System.out.println();
 	}
+
+	public static void updateBlogPost() {
+		var blogPost = db.BlogPosts.find(TEST_BLOGPOST_ID);
+		blogPost.setTitle(blogPost.getTitle() + 1);
+		blogPost.setSubtitle(blogPost.getSubtitle() + 1);
+
+
+		var result = db.BlogPosts.update(blogPost);
+
+		System.out.println(result ? "Successfully updated Blog Post" : "Failed to update Blog Post");
+		System.out.println();
+	}
+
 
 	public static void findBlogPost() {
 		System.out.println("Finding Blog Post with ID: " + TEST_BLOGPOST_ID);
@@ -91,15 +119,26 @@ public class DBTest {
 
 	public static void addBlogComment() {
 		boolean result = db.BlogComments.add(new BlogCommentBuilder()
-				.setBlogCommentID(UUID.randomUUID())
-				.setBlogPostID(UUID.fromString(TEST_BLOGPOST_ID))
-				.setUserID(UUID.fromString(TEST_USER_ID))
+				.setBlogCommentID(UUID.randomUUID().toString())
+				.setBlogPostID(TEST_BLOGPOST_ID)
+				.setUserID(TEST_USER_ID)
 				.setMessage("Dolphins get a lot of good publicity for the drowning swimmers they push back to shore, but what you don't hear about is the many people they push farther out to sea. Dolphins aren't smart. They just like pushing things")
 				.setCreatedDate(LocalDateTime.now())
 				.build()
 		);
 
 		System.out.println(result ? "Successfully added Blog Post Comment" : "Failed to add Blog Post Comment");
+		System.out.println();
+	}
+
+	public static void updateBlogComment() {
+		var blogComment = db.BlogComments.find(TEST_BLOGCOMMENT_ID);
+		blogComment.setMessage(blogComment.getMessage() + 1);
+
+
+		var result = db.BlogComments.update(blogComment);
+
+		System.out.println(result ? "Successfully updated Blog Comment" : "Failed to update Blog Comment");
 		System.out.println();
 	}
 

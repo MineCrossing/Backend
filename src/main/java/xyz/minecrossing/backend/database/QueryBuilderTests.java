@@ -14,10 +14,6 @@ public class QueryBuilderTests {
 				.select("user_id", "username", "admin")
 				.build();
 
-		String insertVals = new QueryBuilder("users")
-				.insert(3)
-				.build();
-
 		String insertColsAndVals = new QueryBuilder("users")
 				.insert(List.of("user_id", "email", "username"))
 				.build();
@@ -55,7 +51,6 @@ public class QueryBuilderTests {
 
 		System.out.printf("Select *: %s\n", selectStar);
 		System.out.printf("Select Cols: %s\n", selectCols);
-		System.out.printf("Insert Vals: %s\n", insertVals);
 		System.out.printf("Insert Cols and Vals: %s\n", insertColsAndVals);
 		System.out.printf("Delete: %s\n", delete);
 		System.out.printf("Update: %s\n", update);

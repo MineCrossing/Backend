@@ -5,7 +5,6 @@ import xyz.minecrossing.backend.helpers.StringUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class QueryBuilder {
 	private String queryStart;
@@ -36,12 +35,12 @@ public class QueryBuilder {
 	private String formatPairs(List<String> values, String operator) {
 		return values
 				.stream()
-				.map(v -> String.format("%s %s ?", v, operator))
+				.map(v -> String.format("%s %s :%s", v, operator, v))
 				.collect(Collectors.joining(", "));
 	}
 
-	private String getValuePlaceholder(int count) {
-		return IntStream.range(0, count).mapToObj(i -> "?").collect(Collectors.joining(", "));
+	private String getValuePlaceholder(List<String> columnNames) {
+		return columnNames.stream().map(i -> ":" + i).collect(Collectors.joining(", "));
 	}
 
 	public QueryBuilder select() {
@@ -58,13 +57,8 @@ public class QueryBuilder {
 		return select(List.of(columnNames));
 	}
 
-	public QueryBuilder insert(int valueCount) {
-		this.queryStart = String.format("INSERT INTO %s VALUES (%s)", tableName, getValuePlaceholder(valueCount));
-		return this;
-	}
-
 	public QueryBuilder insert(List<String> columnNames) {
-		this.queryStart = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, toCSV(columnNames), getValuePlaceholder(columnNames.size()));
+		this.queryStart = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, toCSV(columnNames), getValuePlaceholder(columnNames));
 		return this;
 	}
 
