@@ -90,4 +90,19 @@ public class UserResource extends MineCrossingResource<User> implements IUserRes
 			return null;
 		}
 	}
+
+	@Override
+	public boolean delete(String key) {
+		try {
+			new EntityToPreparedStatementMapper<>(getNamedParamStatement(queryBuilder().delete().where(User.USER_ID_COL).build()))
+					.mapParams(User.USER_ID_COL, key)
+					.execute();
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
 }

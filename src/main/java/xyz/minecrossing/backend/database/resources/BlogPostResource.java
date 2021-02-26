@@ -62,4 +62,19 @@ public class BlogPostResource extends MineCrossingResource<BlogPost> implements 
 			return null;
 		}
 	}
+
+	@Override
+	public boolean delete(String key) {
+		try {
+			new EntityToPreparedStatementMapper<>(getNamedParamStatement(queryBuilder().delete().where(BlogPost.BLOG_POST_ID_COL).build()))
+					.mapParams(BlogPost.BLOG_POST_ID_COL, key)
+					.execute();
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
 }

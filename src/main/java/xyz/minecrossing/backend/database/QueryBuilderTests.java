@@ -18,11 +18,6 @@ public class QueryBuilderTests {
 				.insert(List.of("user_id", "email", "username"))
 				.build();
 
-		String delete = new QueryBuilder("users")
-				.delete("user_id = ? and user_id != ?")
-				.build();
-
-
 		String update = new QueryBuilder("users")
 				.update(List.of("username", "admin"))
 				.build();
@@ -52,7 +47,6 @@ public class QueryBuilderTests {
 		System.out.printf("Select *: %s\n", selectStar);
 		System.out.printf("Select Cols: %s\n", selectCols);
 		System.out.printf("Insert Cols and Vals: %s\n", insertColsAndVals);
-		System.out.printf("Delete: %s\n", delete);
 		System.out.printf("Update: %s\n", update);
 		System.out.printf("Where: %s\n", where);
 		System.out.printf("CustomWhere: %s\n", customWhere);

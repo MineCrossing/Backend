@@ -15,6 +15,8 @@ public interface ICRUDResource<T extends IDatabaseModel<K>, K> {
 
 	T find(K key);
 
+	boolean delete(K key);
+
 	default boolean addOrUpdate(T entity) {
 		return (find(entity.getKey()) == null) ? add(entity) : update(entity);
 	}

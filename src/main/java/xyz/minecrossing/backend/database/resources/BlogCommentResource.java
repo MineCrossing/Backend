@@ -63,4 +63,19 @@ public class BlogCommentResource extends MineCrossingResource<BlogComment> imple
 			return null;
 		}
 	}
+
+	@Override
+	public boolean delete(String key) {
+		try {
+			new EntityToPreparedStatementMapper<>(getNamedParamStatement(queryBuilder().delete().where(BlogComment.BLOG_COMMENT_ID_COL).build()))
+					.mapParams(BlogComment.BLOG_COMMENT_ID_COL, key)
+					.execute();
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
 }

@@ -66,9 +66,8 @@ public class QueryBuilder {
 		return insert(List.of(columnNames));
 	}
 
-	public QueryBuilder delete(String where) {
+	public QueryBuilder delete() {
 		this.queryStart = String.format("DELETE FROM %s", tableName);
-		this.queryWhere = formatWhere(where);
 		return this;
 	}
 
