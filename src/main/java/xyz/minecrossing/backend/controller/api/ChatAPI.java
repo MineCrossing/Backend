@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 public interface ChatAPI {
 
+    @GetMapping("/")
+    ResponseEntity<Object> base();
+
     @GetMapping("/chat")
     ResponseEntity<Object> chat();
 
