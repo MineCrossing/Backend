@@ -15,6 +15,9 @@ public class ChatManager implements RedisChannelListener {
     }
 
     public static void addMessage(String message) {
+        if (messages.size() > 100) {
+            messages.clear();
+        }
         messages.add(message);
     }
 
