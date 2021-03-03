@@ -11,13 +11,6 @@ import java.util.HashMap;
 public class TestAPIController implements TestAPI {
 
     @Override
-    public ResponseEntity<Object> api() {
-        HashMap<String, String> value = new HashMap<>();
-        value.put("msg", "Hello World!");
-        return new ResponseEntity<>(value, HttpStatus.OK);
-    }
-
-    @Override
     public ResponseEntity<Object> test() {
         HashMap<String, String> value = new HashMap<>();
         value.put("msg", "Test message!");

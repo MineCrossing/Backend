@@ -1,19 +1,14 @@
 package xyz.minecrossing.backend.database;
 
-import xyz.minecrossing.backend.database.interfaces.IBlogCommentResource;
-import xyz.minecrossing.backend.database.interfaces.IBlogPostResource;
-import xyz.minecrossing.backend.database.interfaces.IRoleResource;
-import xyz.minecrossing.backend.database.interfaces.IUserResource;
-import xyz.minecrossing.backend.database.resources.BlogCommentResource;
-import xyz.minecrossing.backend.database.resources.BlogPostResource;
-import xyz.minecrossing.backend.database.resources.RoleResource;
-import xyz.minecrossing.backend.database.resources.UserResource;
+import xyz.minecrossing.backend.database.interfaces.*;
+import xyz.minecrossing.backend.database.resources.*;
 
 public class MineCrossingDB {
 	public final IUserResource Users;
 	public final IBlogPostResource BlogPosts;
 	public final IBlogCommentResource BlogComments;
 	public final IRoleResource Roles;
+	public final IPlayerResource Players;
 
 	private static MineCrossingDB instance;
 
@@ -22,6 +17,7 @@ public class MineCrossingDB {
 		BlogPosts = new BlogPostResource();
 		BlogComments = new BlogCommentResource();
 		Roles = new RoleResource();
+		Players = new PlayerResource();
 	}
 
 	public static MineCrossingDB getInstance() {

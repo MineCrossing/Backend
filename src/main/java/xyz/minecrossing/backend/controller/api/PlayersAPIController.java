@@ -3,18 +3,12 @@ package xyz.minecrossing.backend.controller.api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.minecrossing.databaseconnector.DatabaseConnector;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
+import xyz.minecrossing.backend.database.MineCrossingDB;
 
 @RestController
 public class PlayersAPIController implements PlayersAPI {
 
-    @Override
+    /*@Override
     public ResponseEntity<Object> players() {
         HashMap<String, Object> players = new HashMap<>();
 
@@ -45,6 +39,12 @@ public class PlayersAPIController implements PlayersAPI {
         }
 
         return new ResponseEntity<>(players, HttpStatus.OK);
+    }
+*/
+    @Override
+    public ResponseEntity<Object> players() {
+        var db = MineCrossingDB.getInstance();
+        return new ResponseEntity<>(db.Players.findAll(), HttpStatus.OK);
     }
 
 }

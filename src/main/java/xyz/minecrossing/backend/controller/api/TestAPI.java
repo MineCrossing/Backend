@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 public interface TestAPI {
 
-    @GetMapping("/")
-    ResponseEntity<Object> api();
 
     @GetMapping("/test")
     ResponseEntity<Object> test();
