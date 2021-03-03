@@ -9,6 +9,7 @@ public class MineCrossingDB {
 	public final IBlogCommentResource BlogComments;
 	public final IRoleResource Roles;
 	public final IPlayerResource Players;
+	public final IAccessTokenResource AccessTokens;
 
 	private static MineCrossingDB instance;
 
@@ -18,6 +19,7 @@ public class MineCrossingDB {
 		BlogComments = new BlogCommentResource();
 		Roles = new RoleResource();
 		Players = new PlayerResource();
+		AccessTokens = new AccessTokenResource();
 	}
 
 	public static MineCrossingDB getInstance() {

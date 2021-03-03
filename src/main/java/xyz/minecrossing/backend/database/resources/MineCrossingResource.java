@@ -46,6 +46,7 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 				false);
 	}
 
+	@Override
 	public boolean add(T entity) {
 		try {
 			var ps = new EntityToPreparedStatementMapper<>(getNamedParamStatement(
@@ -119,23 +120,6 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 		return true;
 	}
 
-	private String getPrimaryKeyColName(T entity) {
-		var keyColField = Arrays.stream(entity.getClass().getDeclaredFields()).filter(f -> {
-			f.setAccessible(true);
-			try {
-				return f.get(entity).equals(entity.getKey()) && f.getAnnotation(ColName.class) != null;
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-				return false;
-			}
-		}).findFirst().orElse(null);
-
-		if (keyColField == null)
-			return null;
-
-		return keyColField.getAnnotation(ColName.class).col();
-	}
-
 	@Override
 	public T find(String keyCol, K key) {
 		try {
@@ -173,7 +157,24 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 		return foundItems;
 	}
 
-	public List<String> getColumnNames(T entity) {
+	private String getPrimaryKeyColName(T entity) {
+		var keyColField = Arrays.stream(entity.getClass().getDeclaredFields()).filter(f -> {
+			f.setAccessible(true);
+			try {
+				return f.get(entity).equals(entity.getKey()) && f.getAnnotation(ColName.class) != null;
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}).findFirst().orElse(null);
+
+		if (keyColField == null)
+			return null;
+
+		return keyColField.getAnnotation(ColName.class).col();
+	}
+
+	private List<String> getColumnNames(T entity) {
 		return Arrays.stream(entity.getClass().getDeclaredFields()).filter(a -> a.getAnnotation(ColName.class) != null).map(c -> c.getAnnotation(ColName.class).col()).collect(Collectors.toList());
 	}
 }

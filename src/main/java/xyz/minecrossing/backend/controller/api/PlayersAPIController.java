@@ -40,7 +40,7 @@ public class PlayersAPIController implements PlayersAPI {
 
         return new ResponseEntity<>(players, HttpStatus.OK);
     }
-*/
+    */
     @Override
     public ResponseEntity<Object> players() {
         var db = MineCrossingDB.getInstance();

@@ -1,17 +1,28 @@
 package xyz.minecrossing.backend.database.models;
 
+import xyz.minecrossing.backend.database.interfaces.ColName;
 import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
 public class PlayerDTO implements IDatabaseModel<String> {
+	@ColName(col = PLAYER_ID_COL)
 	private String playerID;
+	@ColName(col = NAME_COL)
 	private String name;
+	@ColName(col = TIME_COL)
 	private double time;
+	@ColName(col = LEVEL_COL)
 	private int level;
+	@ColName(col = KILLS_COL)
 	private int kills;
+	@ColName(col = DEATHS_COL)
 	private int deaths;
+	@ColName(col = WINS_COL)
 	private int wins;
+	@ColName(col = LOSSES_COL)
 	private int losses;
+	@ColName(col = LOGINS_COL)
 	private int logins;
+	@ColName(col = QUESTS_COL)
 	private int quests;
 
 	public final static String PLAYER_ID_COL = "uuid";
