@@ -6,25 +6,25 @@ import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 import java.time.LocalDateTime;
 
 public class BlogPostDTO implements IDatabaseModel<String> {
-	@ColName(col = "blog_post_id")
+	@ColName(col = BLOG_POST_ID_COL)
 	private String blogPostID;
 
-	@ColName(col = "user_id")
+	@ColName(col = USER_ID_COL)
 	private int userID;
 
-	@ColName(col = "title")
+	@ColName(col = TITLE_COL)
 	private String title;
 
-	@ColName(col = "subtitle")
+	@ColName(col = SUBTITLE_COL)
 	private String subtitle;
 
-	@ColName(col = "author")
+	@ColName(col = AUTHOR_COL)
 	private String author;
 
-	@ColName(col = "content")
+	@ColName(col = CONTENT_COL)
 	private String content;
 
-	@ColName(col = "created_date")
+	@ColName(col = CREATED_DATE_COL)
 	private LocalDateTime createdDate;
 
 

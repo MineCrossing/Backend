@@ -6,22 +6,22 @@ import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 import java.time.LocalDateTime;
 
 public class RoleDTO implements IDatabaseModel<Integer> {
-	@ColName(col = "id")
+	@ColName(col = ROLE_ID_COL)
 	private int roleID;
-	@ColName(col = "name")
+	@ColName(col = ROLE_NAME_COL)
 	private String roleName;
-	@ColName(col = "displayName")
+	@ColName(col = DISPLAY_NAME_COL)
 	private String displayName;
-	@ColName(col = "created_at")
+	@ColName(col = CREATED_DATE_COL)
 	private LocalDateTime createdDate;
-	@ColName(col = "updated_at")
+	@ColName(col = UPDATE_DATE_COL)
 	private LocalDateTime updatedDate;
 
-	public static String ROLE_ID_COL = "id";
-	public static String ROLE_NAME_COL = "name";
-	public static String DISPLAY_NAME_COLUMN = "displayName";
-	public static String CREATED_DATE_COL = "created_at";
-	public static String UPDATE_DATE_COL = "updated_at";
+	public final static String ROLE_ID_COL = "id";
+	public final static String ROLE_NAME_COL = "name";
+	public final static String DISPLAY_NAME_COL = "displayName";
+	public final static String CREATED_DATE_COL = "created_at";
+	public final static String UPDATE_DATE_COL = "updated_at";
 
 	public RoleDTO() {
 	}

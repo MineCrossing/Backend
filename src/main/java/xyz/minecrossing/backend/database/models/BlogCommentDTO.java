@@ -6,19 +6,19 @@ import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 import java.time.LocalDateTime;
 
 public class BlogCommentDTO implements IDatabaseModel<String> {
-	@ColName(col = "blog_comment_id")
+	@ColName(col = BLOG_COMMENT_ID_COL)
 	private String blogCommentID;
 
-	@ColName(col = "blog_post_id")
+	@ColName(col = BLOG_POST_ID_COL)
 	private String blogPostID;
 
-	@ColName(col = "user_id")
+	@ColName(col = USER_ID_COL)
 	private int userID;
 
-	@ColName(col = "message")
+	@ColName(col = MESSAGE_COL)
 	private String message;
 
-	@ColName(col = "created_date")
+	@ColName(col = CREATED_DATE_COL)
 	private LocalDateTime createdDate;
 
 	public final static String BLOG_COMMENT_ID_COL = "blog_comment_id";

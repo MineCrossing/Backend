@@ -17,7 +17,7 @@ public class RoleDTOBuilder extends DTOBuilder<RoleDTO> {
 	public RoleDTOBuilder fromResultSet(ResultSet rs) throws SQLException {
 		roleID = rs.getInt(RoleDTO.ROLE_ID_COL);
 		roleName = rs.getString(RoleDTO.ROLE_NAME_COL);
-		displayName = rs.getString(RoleDTO.DISPLAY_NAME_COLUMN);
+		displayName = rs.getString(RoleDTO.DISPLAY_NAME_COL);
 		createdDate = rs.getTimestamp(RoleDTO.CREATED_DATE_COL).toLocalDateTime();
 		updatedDate = rs.getTimestamp(RoleDTO.UPDATE_DATE_COL).toLocalDateTime();
 
