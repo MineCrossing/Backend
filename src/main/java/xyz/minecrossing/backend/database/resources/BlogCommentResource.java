@@ -1,16 +1,16 @@
 package xyz.minecrossing.backend.database.resources;
 
 
-import xyz.minecrossing.backend.database.helpers.EntityToPreparedStatementMapper;
+import xyz.minecrossing.backend.database.builders.BlogCommentDTOBuilder;
+import xyz.minecrossing.backend.database.builders.DTOBuilder;
+import xyz.minecrossing.backend.database.helpers.ParamSpecification;
 import xyz.minecrossing.backend.database.helpers.QueryBuilder;
 import xyz.minecrossing.backend.database.interfaces.IBlogCommentResource;
-import xyz.minecrossing.coreutilities.dbmodels.BlogComment;
-import xyz.minecrossing.coreutilities.dbmodels.builders.BlogCommentBuilder;
+import xyz.minecrossing.backend.database.models.BlogCommentDTO;
 
-import java.sql.SQLException;
-import java.util.stream.Collectors;
+import java.util.List;
 
-public class BlogCommentResource extends MineCrossingResource<BlogComment> implements IBlogCommentResource {
+public class BlogCommentResource extends MineCrossingResource<BlogCommentDTO, String> implements IBlogCommentResource {
 
 	public BlogCommentResource() {
 	}
@@ -20,62 +20,22 @@ public class BlogCommentResource extends MineCrossingResource<BlogComment> imple
 	}
 
 	@Override
-	public boolean update(BlogComment entity) {
-		try {
-			var columnsToUpdate = entity
-					.getColumnNames()
-					.stream()
-					.filter(c -> !c.equals(BlogComment.BLOG_COMMENT_ID_COL))
-					.collect(Collectors.toList());
-
-			var ps = new EntityToPreparedStatementMapper<>(
-					getNamedParamStatement(
-							queryBuilder()
-									.update(columnsToUpdate)
-									.where(BlogComment.BLOG_COMMENT_ID_COL)
-									.build()
-					)
-			).mapParams(entity);
-
-			ps.execute();
-			ps.close();
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
-			return false;
-		}
-
-		return true;
+	protected DTOBuilder<BlogCommentDTO> modelBuilder() {
+		return new BlogCommentDTOBuilder();
 	}
 
 	@Override
-	public BlogComment find(String key) {
-		try {
-			var ps = new EntityToPreparedStatementMapper<>(getNamedParamStatement(queryBuilder().select().where(BlogComment.BLOG_COMMENT_ID_COL).build()))
-					.mapParams(BlogComment.BLOG_COMMENT_ID_COL, key);
-
-			var resultSet = ps.executeQuery();
-
-			resultSet.first();
-
-			return new BlogCommentBuilder().fromResultSet(resultSet).build();
-		} catch (Exception throwables) {
-			throwables.printStackTrace();
-			return null;
-		}
+	public List<BlogCommentDTO> findByUserID(int userID) {
+		return findBy(new ParamSpecification<>(BlogCommentDTO.USER_ID_COL, userID));
 	}
 
 	@Override
-	public boolean delete(String key) {
-		try {
-			new EntityToPreparedStatementMapper<>(getNamedParamStatement(queryBuilder().delete().where(BlogComment.BLOG_COMMENT_ID_COL).build()))
-					.mapParams(BlogComment.BLOG_COMMENT_ID_COL, key)
-					.execute();
+	public List<BlogCommentDTO> findByBlogPostID(String blogPostID) {
+		return findBy(new ParamSpecification<>(BlogCommentDTO.BLOG_POST_ID_COL, blogPostID));
+	}
 
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
-			return false;
-		}
-
-		return true;
+	@Override
+	public BlogCommentDTO find(String id) {
+		return find(BlogCommentDTO.BLOG_COMMENT_ID_COL, id);
 	}
 }

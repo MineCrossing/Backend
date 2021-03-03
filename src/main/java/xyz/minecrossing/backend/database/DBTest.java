@@ -1,18 +1,17 @@
 package xyz.minecrossing.backend.database;
 
 
-import xyz.minecrossing.coreutilities.dbmodels.User;
-import xyz.minecrossing.coreutilities.dbmodels.builders.BlogCommentBuilder;
-import xyz.minecrossing.coreutilities.dbmodels.builders.BlogPostBuilder;
-import xyz.minecrossing.coreutilities.dbmodels.builders.UserBuilder;
+import xyz.minecrossing.backend.database.builders.BlogCommentDTOBuilder;
+import xyz.minecrossing.backend.database.builders.BlogPostDTOBuilder;
+import xyz.minecrossing.backend.database.builders.UserDTOBuilder;
+import xyz.minecrossing.backend.database.models.UserDTO;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.UUID;
 
 public class DBTest {
-	static final String TEST_USER_ID = "05f8d3ed-7b8a-4a74-8bb5-6176b52c88ec";
+	static final Integer TEST_USER_ID = 666888999;
 	static final String TEST_BLOGPOST_ID = "09f8bfec-8b2a-a47f-2cd4-61d2b52a8fe7";
 	static final String TEST_BLOGCOMMENT_ID = "8bf8bfec-8b2a-a47f-2cd4-6bb2b52a88ea";
 	static MineCrossingDB db = MineCrossingDB.getInstance();
@@ -22,17 +21,19 @@ public class DBTest {
 		addUser();
 		findUser();
 		updateUser();
-		getUsers();
+		deleteUser();
 		System.out.println();
 		System.out.println("****************** BLOG POST TESTS ******************");
 		addBlogPost();
 		updateBlogPost();
 		findBlogPost();
+		deleteBlogPost();
 		System.out.println();
 		System.out.println("****************** BLOG COMMENT TESTS ******************");
 		addBlogComment();
 		updateBlogComment();
 		findBlogComment();
+		deleteBlogComment();
 	}
 
 	public static void addUser() {
@@ -40,13 +41,16 @@ public class DBTest {
 		String somewhatUniqueUsername = id.toString().substring(0, new Random().nextInt(5) + (new Random().nextInt(5)));
 		System.out.println("Adding user: " + somewhatUniqueUsername);
 
-		boolean result = db.Users.add(new UserBuilder()
-				.setAdmin(false)
-				.setCreatedDate(LocalDate.now())
+		boolean result = db.Users.add(new UserDTOBuilder()
+				.setUserID(666888999)
+				.setRoleID(1)
+				.setUsername(somewhatUniqueUsername)
 				.setEmail(somewhatUniqueUsername + "@fake.com")
 				.setPassword("pass")
-				.setUserID(id.toString())
-				.setUsername(somewhatUniqueUsername)
+				.setAvatarPath("users/default.png")
+				.setCreatedDate(LocalDateTime.now())
+				.setUpdatedDate(LocalDateTime.now())
+				.setEmailVerifiedAt(LocalDateTime.now())
 				.build());
 
 		System.out.println(result ? "Successfully added user" : "Failed to add user");
@@ -56,7 +60,7 @@ public class DBTest {
 	public static void findUser() {
 		System.out.println("Finding user with ID: " + TEST_USER_ID);
 
-		User user = db.Users.find(TEST_USER_ID);
+		UserDTO user = db.Users.find(TEST_USER_ID);
 
 		System.out.println(user == null ? "Failed to find user" : "Found user: " + user.getUsername());
 		System.out.println();
@@ -74,15 +78,13 @@ public class DBTest {
 		System.out.println();
 	}
 
-	public static void getUsers() {
-		System.out.println("Finding Users...");
-		System.out.println("Found " + db.Users.getAll().size() + " total users.");
-		System.out.println();
+	public static void deleteUser() {
+		System.out.println(db.Users.delete(db.Users.find(TEST_USER_ID)) ? "Successfully deleted user" : "Failed to delete user");
 	}
 
 	public static void addBlogPost() {
-		boolean result = db.BlogPosts.add(new BlogPostBuilder()
-				.setBlogPostID(UUID.randomUUID().toString())
+		boolean result = db.BlogPosts.add(new BlogPostDTOBuilder()
+				.setBlogPostID(TEST_BLOGPOST_ID)
 				.setUserID(TEST_USER_ID)
 				.setTitle("A Random Blogpost")
 				.setSubtitle("Sub-title")
@@ -117,9 +119,13 @@ public class DBTest {
 		System.out.println();
 	}
 
+	public static void deleteBlogPost() {
+		System.out.println(db.BlogPosts.delete(db.BlogPosts.find(TEST_BLOGPOST_ID)) ? "Successfully deleted Blog Post" : "Failed to delete Blog Post");
+	}
+
 	public static void addBlogComment() {
-		boolean result = db.BlogComments.add(new BlogCommentBuilder()
-				.setBlogCommentID(UUID.randomUUID().toString())
+		boolean result = db.BlogComments.add(new BlogCommentDTOBuilder()
+				.setBlogCommentID(TEST_BLOGCOMMENT_ID)
 				.setBlogPostID(TEST_BLOGPOST_ID)
 				.setUserID(TEST_USER_ID)
 				.setMessage("Dolphins get a lot of good publicity for the drowning swimmers they push back to shore, but what you don't hear about is the many people they push farther out to sea. Dolphins aren't smart. They just like pushing things")
@@ -149,6 +155,10 @@ public class DBTest {
 
 		System.out.println(bp == null ? "Failed to find Blog Post Comment" : "Found Blog Post Comment: " + bp.getKey());
 		System.out.println();
+	}
+
+	public static void deleteBlogComment() {
+		System.out.println(db.BlogComments.delete(db.BlogComments.find(TEST_BLOGCOMMENT_ID)) ? "Successfully deleted Blog Comment" : "Failed to delete Blog Comment");
 	}
 
 }

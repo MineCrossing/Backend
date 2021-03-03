@@ -1,8 +1,8 @@
 package xyz.minecrossing.backend.database.helpers;
 
 import org.sql2o.tools.NamedParameterStatement;
-import xyz.minecrossing.coreutilities.dbmodels.ColName;
-import xyz.minecrossing.coreutilities.dbmodels.IDatabaseModel;
+import xyz.minecrossing.backend.database.interfaces.ColName;
+import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -64,7 +64,7 @@ public class EntityToPreparedStatementMapper<T extends IDatabaseModel<?>> {
 		return mapParams(map);
 	}
 
-	public <V> NamedParameterStatement mapParams(String colNames, V value) {
-		return mapParams(List.of(colNames), List.of(value));
+	public <V> NamedParameterStatement mapParams(String colName, V value) {
+		return mapParams(List.of(colName), List.of(value));
 	}
 }

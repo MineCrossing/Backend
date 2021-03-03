@@ -1,6 +1,9 @@
 package xyz.minecrossing.backend.database.interfaces;
 
-import xyz.minecrossing.coreutilities.dbmodels.IDatabaseModel;
+
+import xyz.minecrossing.backend.database.helpers.ParamSpecification;
+
+import java.util.List;
 
 /**
  * An interface for a simple CRUD database resource
@@ -13,12 +16,12 @@ public interface ICRUDResource<T extends IDatabaseModel<K>, K> {
 
 	boolean update(T entity);
 
-	T find(K key);
+	T find(String keyCol, K key);
 
-	boolean delete(K key);
+	List<T> findBy(ParamSpecification<?> spec);
 
-	default boolean addOrUpdate(T entity) {
-		return (find(entity.getKey()) == null) ? add(entity) : update(entity);
-	}
+	boolean delete(T object);
+
+	boolean addOrUpdate(T entity);
 
 }

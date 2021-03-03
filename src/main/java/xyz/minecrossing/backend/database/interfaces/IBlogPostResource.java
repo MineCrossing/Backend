@@ -1,6 +1,7 @@
 package xyz.minecrossing.backend.database.interfaces;
 
-import xyz.minecrossing.coreutilities.dbmodels.BlogPost;
+import xyz.minecrossing.backend.database.models.BlogPostDTO;
 
-public interface IBlogPostResource extends ICRUDResource<BlogPost, String> {
+public interface IBlogPostResource extends ICRUDResource<BlogPostDTO, String>{
+	BlogPostDTO find(String id);
 }

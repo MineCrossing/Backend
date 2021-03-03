@@ -1,9 +1,7 @@
 package xyz.minecrossing.backend.database.interfaces;
 
-import xyz.minecrossing.coreutilities.dbmodels.User;
+import xyz.minecrossing.backend.database.models.UserDTO;
 
-import java.util.List;
-
-public interface IUserResource extends ICRUDResource<User, String> {
-	List<User> getAll();
+public interface IUserResource extends ICRUDResource<UserDTO, Integer>{
+	UserDTO find(Integer id);
 }
