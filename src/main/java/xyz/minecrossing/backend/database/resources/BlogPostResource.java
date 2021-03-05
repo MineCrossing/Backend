@@ -1,13 +1,13 @@
 package xyz.minecrossing.backend.database.resources;
 
-import xyz.minecrossing.backend.database.builders.BlogPostDTOBuilder;
-import xyz.minecrossing.backend.database.builders.DTOBuilder;
+import xyz.minecrossing.backend.database.builders.BlogPostBuilder;
+import xyz.minecrossing.backend.database.builders.ModelBuilder;
 import xyz.minecrossing.backend.database.helpers.QueryBuilder;
 import xyz.minecrossing.backend.database.interfaces.IBlogPostResource;
-import xyz.minecrossing.backend.database.models.BlogPostDTO;
+import xyz.minecrossing.backend.database.models.BlogPost;
 
 
-public class BlogPostResource extends MineCrossingResource<BlogPostDTO, String> implements IBlogPostResource {
+public class BlogPostResource extends MineCrossingResource<BlogPost, String> implements IBlogPostResource {
 
 	public BlogPostResource() {
 	}
@@ -17,12 +17,12 @@ public class BlogPostResource extends MineCrossingResource<BlogPostDTO, String> 
 	}
 
 	@Override
-	protected DTOBuilder<BlogPostDTO> modelBuilder() {
-		return new BlogPostDTOBuilder();
+	protected ModelBuilder<BlogPost> modelBuilder() {
+		return new BlogPostBuilder();
 	}
 
 	@Override
-	public BlogPostDTO find(String id) {
-		return find(BlogPostDTO.BLOG_POST_ID_COL, id);
+	public BlogPost find(String id) {
+		return find(BlogPost.BLOG_POST_ID_COL, id);
 	}
 }

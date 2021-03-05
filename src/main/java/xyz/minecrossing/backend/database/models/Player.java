@@ -3,7 +3,7 @@ package xyz.minecrossing.backend.database.models;
 import xyz.minecrossing.backend.database.interfaces.ColName;
 import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
-public class PlayerDTO implements IDatabaseModel<String> {
+public class Player implements IDatabaseModel<String> {
 	@ColName(col = PLAYER_ID_COL)
 	private String playerID;
 	@ColName(col = NAME_COL)
@@ -36,10 +36,10 @@ public class PlayerDTO implements IDatabaseModel<String> {
 	public final static String LOGINS_COL = "logins";
 	public final static String QUESTS_COL = "quests";
 
-	public PlayerDTO() {
+	public Player() {
 	}
 
-	public PlayerDTO(String playerID, String name, double time, int level, int kills, int deaths, int wins, int losses, int logins, int quests) {
+	public Player(String playerID, String name, double time, int level, int kills, int deaths, int wins, int losses, int logins, int quests) {
 		this.playerID = playerID;
 		this.name = name;
 		this.time = time;

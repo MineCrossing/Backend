@@ -1,13 +1,13 @@
 package xyz.minecrossing.backend.database.resources;
 
-import xyz.minecrossing.backend.database.builders.DTOBuilder;
-import xyz.minecrossing.backend.database.builders.RoleDTOBuilder;
+import xyz.minecrossing.backend.database.builders.ModelBuilder;
+import xyz.minecrossing.backend.database.builders.RoleBuilder;
 import xyz.minecrossing.backend.database.helpers.QueryBuilder;
 import xyz.minecrossing.backend.database.interfaces.IRoleResource;
-import xyz.minecrossing.backend.database.models.RoleDTO;
+import xyz.minecrossing.backend.database.models.Role;
 
 
-public class RoleResource extends MineCrossingStoreResource<RoleDTO, Integer> implements IRoleResource {
+public class RoleResource extends MineCrossingStoreResource<Role, Integer> implements IRoleResource {
 
 	public RoleResource() {
 	}
@@ -18,12 +18,12 @@ public class RoleResource extends MineCrossingStoreResource<RoleDTO, Integer> im
 	}
 
 	@Override
-	protected DTOBuilder<RoleDTO> modelBuilder() {
-		return new RoleDTOBuilder();
+	protected ModelBuilder<Role> modelBuilder() {
+		return new RoleBuilder();
 	}
 
 	@Override
-	public RoleDTO find(Integer id) {
-		return find(RoleDTO.ROLE_ID_COL, id);
+	public Role find(Integer id) {
+		return find(Role.ROLE_ID_COL, id);
 	}
 }

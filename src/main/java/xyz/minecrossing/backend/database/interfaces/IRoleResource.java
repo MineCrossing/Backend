@@ -1,7 +1,7 @@
 package xyz.minecrossing.backend.database.interfaces;
 
-import xyz.minecrossing.backend.database.models.RoleDTO;
+import xyz.minecrossing.backend.database.models.Role;
 
-public interface IRoleResource extends ICRUDResource<RoleDTO, Integer>{
-	RoleDTO find(Integer id);
+public interface IRoleResource extends ICRUDResource<Role, Integer>{
+	Role find(Integer id);
 }

@@ -5,7 +5,7 @@ import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
 import java.time.LocalDateTime;
 
-public class RoleDTO implements IDatabaseModel<Integer> {
+public class Role implements IDatabaseModel<Integer> {
 	@ColName(col = ROLE_ID_COL)
 	private int roleID;
 	@ColName(col = ROLE_NAME_COL)
@@ -19,14 +19,14 @@ public class RoleDTO implements IDatabaseModel<Integer> {
 
 	public final static String ROLE_ID_COL = "id";
 	public final static String ROLE_NAME_COL = "name";
-	public final static String DISPLAY_NAME_COL = "displayName";
+	public final static String DISPLAY_NAME_COL = "display_name";
 	public final static String CREATED_DATE_COL = "created_at";
 	public final static String UPDATE_DATE_COL = "updated_at";
 
-	public RoleDTO() {
+	public Role() {
 	}
 
-	public RoleDTO(int roleID, String roleName, String displayName, LocalDateTime createdDate, LocalDateTime updatedDate) {
+	public Role(int roleID, String roleName, String displayName, LocalDateTime createdDate, LocalDateTime updatedDate) {
 		this.roleID = roleID;
 		this.roleName = roleName;
 		this.displayName = displayName;

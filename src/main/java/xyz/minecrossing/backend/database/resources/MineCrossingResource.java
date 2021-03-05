@@ -1,7 +1,7 @@
 package xyz.minecrossing.backend.database.resources;
 
 import org.sql2o.tools.NamedParameterStatement;
-import xyz.minecrossing.backend.database.builders.DTOBuilder;
+import xyz.minecrossing.backend.database.builders.ModelBuilder;
 import xyz.minecrossing.backend.database.helpers.EntityToPreparedStatementMapper;
 import xyz.minecrossing.backend.database.helpers.ParamSpecification;
 import xyz.minecrossing.backend.database.helpers.QueryBuilder;
@@ -22,7 +22,7 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 
 	protected abstract QueryBuilder queryBuilder();
 
-	protected abstract DTOBuilder<T> modelBuilder();
+	protected abstract ModelBuilder<T> modelBuilder();
 
 	public Connection getConnection() {
 		if (connection == null) {

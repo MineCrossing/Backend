@@ -1,7 +1,7 @@
 package xyz.minecrossing.backend.database.resources;
 
 import org.junit.jupiter.api.*;
-import xyz.minecrossing.backend.database.builders.BlogPostDTOBuilder;
+import xyz.minecrossing.backend.database.builders.BlogPostBuilder;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +21,7 @@ public class BlogPostResourceTests {
 	@Test
 	@Order(1)
 	void create() {
-		boolean result = blogPosts.add(new BlogPostDTOBuilder()
+		boolean result = blogPosts.add(new BlogPostBuilder()
 				.setBlogPostID(TEST_BLOG_POST_ID)
 				.setUserID(TEST_USER_ID)
 				.setTitle("A Random Blogpost")

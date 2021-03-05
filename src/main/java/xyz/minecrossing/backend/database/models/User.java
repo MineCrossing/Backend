@@ -5,7 +5,7 @@ import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
 import java.time.LocalDateTime;
 
-public class UserDTO implements IDatabaseModel<Integer> {
+public class User implements IDatabaseModel<Integer> {
 	@ColName(col = USER_ID_COL)
 	private int userID;
 	@ColName(col = ROLE_ID_COL)
@@ -42,10 +42,10 @@ public class UserDTO implements IDatabaseModel<Integer> {
 	public final static String SETTINGS_COL = "settings";
 	public final static String REMEMBER_TOKEN_COL = "remember_token";
 
-	public UserDTO() {
+	public User() {
 	}
 
-	public UserDTO(int userID, int roleID, String username, String email, String password, String avatarPath, LocalDateTime emailVerifiedAt, LocalDateTime createdDate, LocalDateTime updatedDate, String settings, String rememberToken) {
+	public User(int userID, int roleID, String username, String email, String password, String avatarPath, LocalDateTime emailVerifiedAt, LocalDateTime createdDate, LocalDateTime updatedDate, String settings, String rememberToken) {
 		this.userID = userID;
 		this.roleID = roleID;
 		this.username = username;

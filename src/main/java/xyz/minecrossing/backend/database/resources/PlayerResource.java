@@ -1,19 +1,19 @@
 package xyz.minecrossing.backend.database.resources;
 
-import xyz.minecrossing.backend.database.builders.DTOBuilder;
-import xyz.minecrossing.backend.database.builders.PlayerDTOBuilder;
+import xyz.minecrossing.backend.database.builders.ModelBuilder;
+import xyz.minecrossing.backend.database.builders.PlayerBuilder;
 import xyz.minecrossing.backend.database.helpers.QueryBuilder;
 import xyz.minecrossing.backend.database.interfaces.IPlayerResource;
-import xyz.minecrossing.backend.database.models.PlayerDTO;
+import xyz.minecrossing.backend.database.models.Player;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerResource extends MineCrossingResource<PlayerDTO, String> implements IPlayerResource {
+public class PlayerResource extends MineCrossingResource<Player, String> implements IPlayerResource {
 	@Override
-	public PlayerDTO find(String id) {
-		return find(PlayerDTO.PLAYER_ID_COL, id);
+	public Player find(String id) {
+		return find(Player.PLAYER_ID_COL, id);
 	}
 
 	@Override
@@ -22,13 +22,13 @@ public class PlayerResource extends MineCrossingResource<PlayerDTO, String> impl
 	}
 
 	@Override
-	protected DTOBuilder<PlayerDTO> modelBuilder() {
-		return new PlayerDTOBuilder();
+	protected ModelBuilder<Player> modelBuilder() {
+		return new PlayerBuilder();
 	}
 
 	@Override
-	public List<PlayerDTO> findAll() {
-		var players = new ArrayList<PlayerDTO>();
+	public List<Player> findAll() {
+		var players = new ArrayList<Player>();
 
 		try {
 			var rs = getNamedParamStatement(queryBuilder().select().build()).executeQuery();

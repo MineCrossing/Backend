@@ -5,7 +5,7 @@ import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
 import java.time.LocalDateTime;
 
-public class BlogPostDTO implements IDatabaseModel<String> {
+public class BlogPost implements IDatabaseModel<String> {
 	@ColName(col = BLOG_POST_ID_COL)
 	private String blogPostID;
 
@@ -36,10 +36,10 @@ public class BlogPostDTO implements IDatabaseModel<String> {
 	public final static String CONTENT_COL = "content";
 	public final static String CREATED_DATE_COL = "created_date";
 
-	public BlogPostDTO() {
+	public BlogPost() {
 	}
 
-	public BlogPostDTO(String blogPostID, int userID, String title, String subtitle, String author, String content, LocalDateTime createdDate) {
+	public BlogPost(String blogPostID, int userID, String title, String subtitle, String author, String content, LocalDateTime createdDate) {
 		this.blogPostID = blogPostID;
 		this.userID = userID;
 		this.title = title;

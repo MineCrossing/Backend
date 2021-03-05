@@ -1,7 +1,7 @@
 package xyz.minecrossing.backend.database.resources;
 
 import org.junit.jupiter.api.*;
-import xyz.minecrossing.backend.database.builders.BlogCommentDTOBuilder;
+import xyz.minecrossing.backend.database.builders.BlogCommentBuilder;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +22,7 @@ public class BlogCommentResourceTests {
 	@Test
 	@Order(1)
 	void create() {
-		boolean result = blogComments.add(new BlogCommentDTOBuilder()
+		boolean result = blogComments.add(new BlogCommentBuilder()
 				.setBlogCommentID(TEST_BLOG_COMMENT_ID)
 				.setBlogPostID(TEST_BLOG_POST_ID)
 				.setUserID(TEST_USER_ID)

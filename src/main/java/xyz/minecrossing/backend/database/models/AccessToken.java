@@ -5,7 +5,7 @@ import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
 import java.time.LocalDateTime;
 
-public class AccessTokenDTO implements IDatabaseModel<String> {
+public class AccessToken implements IDatabaseModel<String> {
 	@ColName(col = ACCESS_TOKEN_ID_COL)
 	private String accessTokenID;
 	@ColName(col = USER_ID_COL)
@@ -35,10 +35,10 @@ public class AccessTokenDTO implements IDatabaseModel<String> {
 	public static final String UPDATED_AT_COL = "updated_at";
 	public static final String EXPIRES_AT_COL = "expires_at";
 
-	public AccessTokenDTO() {
+	public AccessToken() {
 	}
 
-	public AccessTokenDTO(String accessTokenID, int userID, int clientID, String tokenName, String scopes, boolean revoked, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime expiresAt) {
+	public AccessToken(String accessTokenID, int userID, int clientID, String tokenName, String scopes, boolean revoked, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime expiresAt) {
 		this.accessTokenID = accessTokenID;
 		this.userID = userID;
 		this.clientID = clientID;

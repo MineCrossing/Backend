@@ -1,7 +1,7 @@
 package xyz.minecrossing.backend.database.resources;
 
 import org.junit.jupiter.api.*;
-import xyz.minecrossing.backend.database.builders.UserDTOBuilder;
+import xyz.minecrossing.backend.database.builders.UserBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -26,7 +26,7 @@ public class UserResourceTests {
 		String somewhatUniqueUsername = id.toString().substring(0, new Random().nextInt(5) + (new Random().nextInt(5)));
 		System.out.println("Adding user: " + somewhatUniqueUsername);
 
-		boolean result = users.add(new UserDTOBuilder()
+		boolean result = users.add(new UserBuilder()
 				.setUserID(666888999)
 				.setRoleID(1)
 				.setUsername(somewhatUniqueUsername)

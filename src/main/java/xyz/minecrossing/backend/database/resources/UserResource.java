@@ -1,13 +1,13 @@
 package xyz.minecrossing.backend.database.resources;
 
-import xyz.minecrossing.backend.database.builders.DTOBuilder;
-import xyz.minecrossing.backend.database.builders.UserDTOBuilder;
+import xyz.minecrossing.backend.database.builders.ModelBuilder;
+import xyz.minecrossing.backend.database.builders.UserBuilder;
 import xyz.minecrossing.backend.database.helpers.QueryBuilder;
 import xyz.minecrossing.backend.database.interfaces.IUserResource;
-import xyz.minecrossing.backend.database.models.UserDTO;
+import xyz.minecrossing.backend.database.models.User;
 
 
-public class UserResource extends MineCrossingStoreResource<UserDTO, Integer> implements IUserResource {
+public class UserResource extends MineCrossingStoreResource<User, Integer> implements IUserResource {
 
 	public UserResource() {
 	}
@@ -17,12 +17,12 @@ public class UserResource extends MineCrossingStoreResource<UserDTO, Integer> im
 	}
 
 	@Override
-	protected DTOBuilder<UserDTO> modelBuilder() {
-		return new UserDTOBuilder();
+	protected ModelBuilder<User> modelBuilder() {
+		return new UserBuilder();
 	}
 
 	@Override
-	public UserDTO find(Integer id) {
-		return find(UserDTO.USER_ID_COL, id);
+	public User find(Integer id) {
+		return find(User.USER_ID_COL, id);
 	}
 }
