@@ -9,8 +9,12 @@ import java.util.stream.Collectors;
 public class QueryBuilder {
 	private String queryStart;
 	private String queryWhere;
+	private String queryLimit;
+	private String queryOrderBy;
 	private final String tableName;
 	private final String defaultOperator = "=";
+	private final int defaultOffset = 0;
+	private final int defaultLimit = 0;
 
 	public QueryBuilder(String tableName) {
 		this.tableName = tableName;
@@ -112,7 +116,37 @@ public class QueryBuilder {
 		return this;
 	}
 
+	public QueryBuilder orderBy(String... columnNames) {
+		return orderBy(false, columnNames);
+	}
+
+	public QueryBuilder orderBy(boolean descending, String... columnNames) {
+		// Performs an implicit null check to throw an exception is any element is null
+		List.of(columnNames);
+
+		this.queryOrderBy = String.format("ORDER BY %s%s", String.join(", ", columnNames), descending ? " DESC" : "");
+		return this;
+	}
+
+	public QueryBuilder limit(int limit) {
+		return limit(0, limit);
+	}
+
+	public QueryBuilder limit(int offset, int limit) {
+		offset = offset < 0 ? defaultOffset : offset;
+		limit = limit < 0 ? defaultLimit : limit;
+
+		this.queryLimit = String.format("LIMIT %s, %s", offset, limit);
+		return this;
+	}
+
 	public String build() {
-		return StringUtils.isNullOrEmpty(queryWhere) ? queryStart : String.format("%s %s", queryStart, queryWhere);
+		return String.format(
+				"%s%s%s%s",
+				queryStart,
+				StringUtils.isNullOrEmpty(queryWhere) ? "" : " " + queryWhere,
+				StringUtils.isNullOrEmpty(queryOrderBy) ? "" : " " + queryOrderBy,
+				StringUtils.isNullOrEmpty(queryLimit) ? "" : " " + queryLimit
+		);
 	}
 }
