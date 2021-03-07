@@ -6,6 +6,8 @@ import xyz.minecrossing.backend.controller.api.requests.AuthRequest;
 import xyz.minecrossing.backend.controller.api.responses.AuthResponse;
 import xyz.minecrossing.backend.database.MineCrossingDB;
 
+import java.time.LocalDateTime;
+
 @RestController
 public class AuthAPIController implements AuthAPI {
 	private MineCrossingDB db;
@@ -21,10 +23,10 @@ public class AuthAPIController implements AuthAPI {
 		if (token == null || token.isRevoked() || token.getUserID() != body.getUserID())
 			return ResponseEntity.ok().body(new AuthResponse());
 
-		/*if (token.getExpiresAt().isAfter(LocalDateTime.now())) {
+		if (LocalDateTime.now().isAfter(token.getExpiresAt())) {
 			db.AccessTokens.revoke(token);
 			return ResponseEntity.ok().body(new AuthResponse());
-		}*/
+		}
 
 		var user = db.Users.find(body.getUserID());
 
