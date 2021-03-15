@@ -5,7 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import xyz.minecrossing.backend.minecraft.ChatManager;
 import xyz.minecrossing.coreutilities.Logger;
+import xyz.minecrossing.redisapi.RedisAPI;
+import xyz.minecrossing.redisapi.redis.RedisConnector;
 
 @SpringBootApplication
 public class BackendApplication {
@@ -15,11 +18,11 @@ public class BackendApplication {
 
         SpringApplication.run(BackendApplication.class, args);
 
-       /* RedisAPI redisAPI = RedisAPI.getRedisAPI();
+        RedisAPI redisAPI = RedisAPI.getRedisAPI();
         redisAPI.initialize();
 
         RedisConnector redisConnector = redisAPI.getRedisConnector();
-        redisConnector.listenForChannel("gameChat", new ChatManager());*/
+        redisConnector.listenForChannel("gameChat", new ChatManager());
     }
 
     @Bean
