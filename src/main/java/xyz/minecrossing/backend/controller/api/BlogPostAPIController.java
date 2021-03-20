@@ -2,12 +2,16 @@ package xyz.minecrossing.backend.controller.api;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.minecrossing.backend.controller.api.requests.CreateBlogRequest;
 import xyz.minecrossing.backend.controller.api.viewmodels.BlogPostPreview;
 import xyz.minecrossing.backend.controller.api.viewmodels.builders.BlogPostPreviewBuilder;
 import xyz.minecrossing.backend.database.MineCrossingDB;
+import xyz.minecrossing.backend.database.builders.BlogPostBuilder;
+import xyz.minecrossing.backend.helpers.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class BlogPostAPIController implements BlogPostAPI {
@@ -47,6 +51,29 @@ public class BlogPostAPIController implements BlogPostAPI {
 							" I am fast. To give you a reference point, I am somewhere between a snake and a mongoose... And a panther")
 					.build()
 
+		));
+	}
+
+
+	@Override
+	public ResponseEntity<Boolean> createBlogPost(CreateBlogRequest body) {
+		if (body == null || StringUtils.anyNullOrEmpty(body.getContent(), body.getSubtitle(), body.getTitle()))
+			return ResponseEntity.badRequest().body(false);
+
+		var user = db.Users.find(body.getUserID());
+
+		if (user == null)
+			return ResponseEntity.badRequest().body(false);
+
+		return ResponseEntity.ok(db.BlogPosts.add(new BlogPostBuilder()
+				.setBlogPostID(UUID.randomUUID().toString())
+				.setAuthor(user.getUsername())
+				.setCreatedDate(LocalDateTime.now())
+				.setTitle(body.getTitle())
+				.setSubtitle(body.getSubtitle())
+				.setContent(body.getContent())
+				.setUserID(user.getUserID())
+				.build()
 		));
 	}
 }
