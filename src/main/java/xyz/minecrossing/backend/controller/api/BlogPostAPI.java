@@ -14,6 +14,9 @@ public interface BlogPostAPI {
 	@GetMapping(value = "/blogposts/preview", produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<List<BlogPostPreview>> getPreviewPosts();
 
+	@GetMapping(value = "/blogposts/previewAll", produces = MediaType.APPLICATION_JSON_VALUE)
+	ResponseEntity<List<BlogPostPreview>> getAllPreviewPosts();
+
 	@PostMapping(value = "/blogposts/create", produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<Boolean> createBlogPost(@RequestBody CreateBlogRequest body);
 

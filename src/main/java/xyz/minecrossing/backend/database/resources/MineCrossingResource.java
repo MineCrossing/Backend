@@ -127,10 +127,15 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 					.mapParams(keyCol, key);
 
 			var resultSet = ps.executeQuery();
-
 			resultSet.first();
 
-			return modelBuilder().fromResultSet(resultSet).build();
+			var entity = modelBuilder().fromResultSet(resultSet).build();
+
+			ps.close();
+			resultSet.close();
+
+			return entity;
+
 		} catch (Exception throwables) {
 			throwables.printStackTrace();
 			return null;
@@ -139,7 +144,7 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 
 	@Override
 	public List<T> findBy(ParamSpecification<?> spec) {
-		var foundItems = new ArrayList<T>();
+		var foundEntities = new ArrayList<T>();
 
 		try {
 			var rs = new EntityToPreparedStatementMapper<>(getNamedParamStatement(queryBuilder().select().where(spec.getColName()).build()))
@@ -147,14 +152,36 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 					.executeQuery();
 
 			while (rs.next()) {
-				foundItems.add(modelBuilder().fromResultSet(rs).build());
+				foundEntities.add(modelBuilder().fromResultSet(rs).build());
 			}
+
+			rs.close();
 
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
 
-		return foundItems;
+		return foundEntities;
+	}
+
+	@Override
+	public List<T> findAll() {
+		var entities = new ArrayList<T>();
+
+		try {
+			var rs = getNamedParamStatement(queryBuilder().select().build()).executeQuery();
+
+			while (rs.next()) {
+				entities.add(modelBuilder().fromResultSet(rs).build());
+			}
+
+			rs.close();
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+
+		return entities;
 	}
 
 	private String getPrimaryKeyColName(T entity) {

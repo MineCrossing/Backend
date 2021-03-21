@@ -20,6 +20,8 @@ public interface ICRUDResource<T extends IDatabaseModel<K>, K> {
 
 	List<T> findBy(ParamSpecification<?> spec);
 
+	List<T> findAll();
+
 	boolean delete(T object);
 
 	boolean addOrUpdate(T entity);
