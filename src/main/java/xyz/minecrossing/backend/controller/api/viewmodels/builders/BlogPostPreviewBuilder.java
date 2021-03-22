@@ -5,11 +5,17 @@ import xyz.minecrossing.backend.controller.api.viewmodels.BlogPostPreview;
 import java.time.LocalDateTime;
 
 public class BlogPostPreviewBuilder {
+	private String blogPostID;
 	private String title;
 	private String subtitle;
 	private String author;
 	private LocalDateTime date;
 	private String preview;
+
+	public BlogPostPreviewBuilder setBlogPostID(String blogPostID) {
+		this.blogPostID = blogPostID;
+		return this;
+	}
 
 	public BlogPostPreviewBuilder setTitle(String title) {
 		this.title = title;
@@ -37,6 +43,6 @@ public class BlogPostPreviewBuilder {
 	}
 
 	public BlogPostPreview build() {
-		return new BlogPostPreview(title, subtitle, author, date, preview);
+		return new BlogPostPreview(blogPostID, title, subtitle, author, date, preview);
 	}
 }

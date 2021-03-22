@@ -3,6 +3,7 @@ package xyz.minecrossing.backend.controller.api.viewmodels;
 import java.time.LocalDateTime;
 
 public class BlogPostPreview {
+	private String blogPostID;
 	private String title;
 	private String subtitle;
 	private String author;
@@ -12,12 +13,21 @@ public class BlogPostPreview {
 	public BlogPostPreview() {
 	}
 
-	public BlogPostPreview(String title, String subtitle, String author, LocalDateTime date, String preview) {
+	public BlogPostPreview(String blogPostID, String title, String subtitle, String author, LocalDateTime date, String preview) {
+		this.blogPostID = blogPostID;
 		this.title = title;
 		this.subtitle = subtitle;
 		this.author = author;
 		this.date = date;
 		this.preview = preview;
+	}
+
+	public String getBlogPostID() {
+		return blogPostID;
+	}
+
+	public void setBlogPostID(String blogPostID) {
+		this.blogPostID = blogPostID;
 	}
 
 	public String getTitle() {

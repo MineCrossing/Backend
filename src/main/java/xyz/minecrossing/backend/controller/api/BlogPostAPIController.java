@@ -30,6 +30,7 @@ public class BlogPostAPIController implements BlogPostAPI {
 				.stream()
 				.filter(b -> !StringUtils.isNullOrEmpty(b.getContent()))
 				.map(b -> new BlogPostPreviewBuilder()
+						.setBlogPostID(b.getBlogPostID())
 						.setAuthor(b.getAuthor())
 						.setDate(b.getCreatedDate())
 						.setSubtitle(b.getSubtitle())
@@ -73,5 +74,10 @@ public class BlogPostAPIController implements BlogPostAPI {
 				.setUserID(user.getUserID())
 				.build()
 		));
+	}
+
+	@Override
+	public ResponseEntity<BlogPost> getBlogPost(String id) {
+		return ResponseEntity.ok(db.BlogPosts.find(id));
 	}
 }
