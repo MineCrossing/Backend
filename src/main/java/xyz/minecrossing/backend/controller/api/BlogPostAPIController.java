@@ -11,10 +11,7 @@ import xyz.minecrossing.backend.database.models.BlogPost;
 import xyz.minecrossing.backend.helpers.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,8 +23,12 @@ public class BlogPostAPIController implements BlogPostAPI {
 	}
 
 	private List<BlogPostPreview> toBlogPostPreview(List<BlogPost> blogPosts) {
+		if (blogPosts == null)
+			return new ArrayList<>();
+
 		return blogPosts
 				.stream()
+				.filter(b -> !StringUtils.isNullOrEmpty(b.getContent()))
 				.map(b -> new BlogPostPreviewBuilder()
 						.setAuthor(b.getAuthor())
 						.setDate(b.getCreatedDate())
