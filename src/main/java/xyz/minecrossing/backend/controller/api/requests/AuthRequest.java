@@ -1,30 +1,30 @@
 package xyz.minecrossing.backend.controller.api.requests;
 
 public class AuthRequest {
-	private int userID;
-	private String JTI;
+	private int userId;
+	private String token;
 
 	public AuthRequest() {
 	}
 
-	public AuthRequest(int userID, String JTI) {
-		this.userID = userID;
-		this.JTI = JTI;
+	public AuthRequest(int userId, String token) {
+		this.userId = userId;
+		this.token = token;
 	}
 
-	public int getUserID() {
-		return userID;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public String getJTI() {
-		return JTI;
+	public String getToken() {
+		return token;
 	}
 
-	public void setJTI(String JTI) {
-		this.JTI = JTI;
+	public void setToken(String token) {
+		this.token = token;
 	}
 }

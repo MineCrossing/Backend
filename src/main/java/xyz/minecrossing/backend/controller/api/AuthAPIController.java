@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import xyz.minecrossing.backend.controller.api.requests.AuthRequest;
 import xyz.minecrossing.backend.controller.api.responses.AuthResponse;
 import xyz.minecrossing.backend.database.MineCrossingDB;
+import xyz.minecrossing.backend.helpers.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -18,9 +19,12 @@ public class AuthAPIController implements AuthAPI {
 
 	@Override
 	public ResponseEntity<AuthResponse> checkAuth(AuthRequest body) {
-		var token = db.AccessTokens.find(body.getJTI());
+		if (body == null || body.getUserId() == 0 || StringUtils.isNullOrEmpty(body.getToken()))
+			return ResponseEntity.badRequest().body(new AuthResponse());
 
-		if (token == null || token.isRevoked() || token.getUserID() != body.getUserID())
+		var token = db.AccessTokens.find(body.getToken());
+
+		if (token == null || token.isRevoked() || token.getUserID() != body.getUserId())
 			return ResponseEntity.ok().body(new AuthResponse());
 
 		if (LocalDateTime.now().isAfter(token.getExpiresAt())) {
@@ -28,13 +32,13 @@ public class AuthAPIController implements AuthAPI {
 			return ResponseEntity.ok().body(new AuthResponse());
 		}
 
-		var user = db.Users.find(body.getUserID());
+		var user = db.Users.find(body.getUserId());
 
 		if (user == null)
 			return ResponseEntity.ok().body(new AuthResponse());
 
 		var role = db.Roles.find(user.getRoleID());
 
-		return ResponseEntity.ok().body(new AuthResponse(true, role.getRoleName().equalsIgnoreCase("admin")));
+		return ResponseEntity.ok().body(new AuthResponse(true, role.getRoleName().equalsIgnoreCase("admin"), user.getUserID()));
 	}
 }

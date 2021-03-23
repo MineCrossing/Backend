@@ -1,25 +1,35 @@
 package xyz.minecrossing.backend.controller.api.responses;
 
 public class AuthResponse {
-	private boolean authed;
+	private boolean loggedIn;
 	private boolean admin;
+	private int userID;
 
 	public AuthResponse() {
-		this.authed = false;
+		this.loggedIn = false;
 		this.admin = false;
 	}
 
-	public AuthResponse(boolean authed, boolean admin) {
-		this.authed = authed;
+	public AuthResponse(boolean loggedIn, boolean admin, int userID) {
+		this.loggedIn = loggedIn;
 		this.admin = admin;
+		this.userID = userID;
 	}
 
-	public boolean isAuthed() {
-		return authed;
+	public int getUserID() {
+		return userID;
 	}
 
-	public void setAuthed(boolean authed) {
-		this.authed = authed;
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
+
+	public void setLoggedIn(boolean loggedIn) {
+		this.loggedIn = loggedIn;
 	}
 
 	public boolean isAdmin() {
