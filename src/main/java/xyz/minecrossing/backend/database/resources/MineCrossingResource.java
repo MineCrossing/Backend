@@ -1,7 +1,7 @@
 package xyz.minecrossing.backend.database.resources;
 
-import org.sql2o.tools.NamedParameterStatement;
 import xyz.minecrossing.backend.database.builders.ModelBuilder;
+import xyz.minecrossing.backend.database.helpers.ConnectionAwareNamedParamStatement;
 import xyz.minecrossing.backend.database.helpers.EntityToPreparedStatementMapper;
 import xyz.minecrossing.backend.database.helpers.ParamSpecification;
 import xyz.minecrossing.backend.database.helpers.QueryBuilder;
@@ -18,29 +18,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> implements ICRUDResource<T, K> {
-	protected Connection connection;
-
 	protected abstract QueryBuilder queryBuilder();
 
 	protected abstract ModelBuilder<T> modelBuilder();
 
 	public Connection getConnection() {
-		if (connection == null) {
-			DatabaseConnector dbc = DatabaseConnector.getInstance();
+		Connection connection;
 
-			try {
-				connection = dbc.getConnection("minecrossing");
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-				return null;
-			}
+		DatabaseConnector dbc = DatabaseConnector.getInstance();
+
+		try {
+			connection = dbc.getConnection("minecrossing");
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return null;
 		}
 
 		return connection;
 	}
 
-	public NamedParameterStatement getNamedParamStatement(String query) throws SQLException {
-		return new NamedParameterStatement(
+	public ConnectionAwareNamedParamStatement getNamedParamStatement(String query) throws SQLException {
+		return new ConnectionAwareNamedParamStatement(
 				getConnection(),
 				query,
 				false);
@@ -48,15 +46,13 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 
 	@Override
 	public boolean add(T entity) {
-		try {
-			var ps = new EntityToPreparedStatementMapper<>(getNamedParamStatement(
-					queryBuilder()
-							.insert(getColumnNames(entity))
-							.build()
-			)).mapParams(entity);
+		try (var ps = new EntityToPreparedStatementMapper<>(getNamedParamStatement(
+				queryBuilder()
+						.insert(getColumnNames(entity))
+						.build()
+		)).mapParams(entity)) {
 
 			ps.execute();
-			ps.close();
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 			return false;
@@ -67,23 +63,21 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 
 	@Override
 	public boolean update(T entity) {
-		try {
-			var columnsToUpdate = getColumnNames(entity)
-					.stream()
-					.filter(c -> !c.equals(entity.getKey()))
-					.collect(Collectors.toList());
+		var columnsToUpdate = getColumnNames(entity)
+				.stream()
+				.filter(c -> !c.equals(entity.getKey()))
+				.collect(Collectors.toList());
 
-			var ps = new EntityToPreparedStatementMapper<>(
-					getNamedParamStatement(
-							queryBuilder()
-									.update(columnsToUpdate)
-									.where(getPrimaryKeyColName(entity))
-									.build()
-					)
-			).mapParams(entity);
+		try (var ps = new EntityToPreparedStatementMapper<>(
+				getNamedParamStatement(
+						queryBuilder()
+								.update(columnsToUpdate)
+								.where(getPrimaryKeyColName(entity))
+								.build()
+				)
+		).mapParams(entity)) {
 
 			ps.execute();
-			ps.close();
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 			return false;
@@ -99,19 +93,18 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 
 	@Override
 	public boolean delete(T entity) {
-		try {
-			if (entity.getKey() == null)
-				return false;
+		if (entity.getKey() == null)
+			return false;
 
-			var keyCol = getPrimaryKeyColName(entity);
+		var keyCol = getPrimaryKeyColName(entity);
 
-			if (keyCol == null)
-				return false;
+		if (keyCol == null)
+			return false;
 
-			new EntityToPreparedStatementMapper<>(getNamedParamStatement(queryBuilder().delete().where(keyCol).build()))
-					.mapParams(keyCol, entity.getKey())
-					.execute();
+		try (var ps = new EntityToPreparedStatementMapper<>(getNamedParamStatement(queryBuilder().delete().where(keyCol).build()))
+				.mapParams(keyCol, entity.getKey())) {
 
+			ps.execute();
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 			return false;
@@ -122,16 +115,14 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 
 	@Override
 	public T find(String keyCol, K key) {
-		try {
-			var ps = new EntityToPreparedStatementMapper<>(getNamedParamStatement(queryBuilder().select().where(keyCol).build()))
-					.mapParams(keyCol, key);
+		try (var ps = new EntityToPreparedStatementMapper<>(getNamedParamStatement(queryBuilder().select().where(keyCol).build()))
+				.mapParams(keyCol, key)) {
 
 			var resultSet = ps.executeQuery();
 			resultSet.first();
 
 			var entity = modelBuilder().fromResultSet(resultSet).build();
 
-			ps.close();
 			resultSet.close();
 
 			return entity;
@@ -146,17 +137,16 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 	public List<T> findBy(ParamSpecification<?> spec) {
 		var foundEntities = new ArrayList<T>();
 
-		try {
-			var rs = new EntityToPreparedStatementMapper<>(getNamedParamStatement(queryBuilder().select().where(spec.getColName()).build()))
-					.mapParams(spec.getColName(), spec.getColValue())
-					.executeQuery();
+		try (var ps = new EntityToPreparedStatementMapper<>(getNamedParamStatement(queryBuilder().select().where(spec.getColName()).build()))
+				.mapParams(spec.getColName(), spec.getColValue())) {
+
+			var rs = ps.executeQuery();
 
 			while (rs.next()) {
 				foundEntities.add(modelBuilder().fromResultSet(rs).build());
 			}
 
 			rs.close();
-
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
@@ -168,15 +158,14 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 	public List<T> findAll() {
 		var entities = new ArrayList<T>();
 
-		try {
-			var rs = getNamedParamStatement(queryBuilder().select().build()).executeQuery();
+		try (var ps = getNamedParamStatement(queryBuilder().select().build())) {
+			var rs = ps.executeQuery();
 
 			while (rs.next()) {
 				entities.add(modelBuilder().fromResultSet(rs).build());
 			}
 
 			rs.close();
-
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}

@@ -1,6 +1,6 @@
 package xyz.minecrossing.backend.database.helpers;
 
-import org.sql2o.tools.NamedParameterStatement;
+
 import xyz.minecrossing.backend.database.interfaces.ColName;
 import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
@@ -11,17 +11,17 @@ import java.util.List;
 import java.util.Map;
 
 public class EntityToPreparedStatementMapper<T extends IDatabaseModel<?>> {
-	protected NamedParameterStatement namedParameterStatement;
+	protected ConnectionAwareNamedParamStatement namedParameterStatement;
 
-	public EntityToPreparedStatementMapper(NamedParameterStatement namedParameterStatement) {
+	public EntityToPreparedStatementMapper(ConnectionAwareNamedParamStatement namedParameterStatement) {
 		this.namedParameterStatement = namedParameterStatement;
 	}
 
-	public NamedParameterStatement getNamedParameterStatement() {
+	public ConnectionAwareNamedParamStatement getNamedParameterStatement() {
 		return namedParameterStatement;
 	}
 
-	public NamedParameterStatement mapParams(T entity) {
+	public ConnectionAwareNamedParamStatement mapParams(T entity) {
 		Arrays.stream(entity.getClass().getDeclaredFields()).forEach(f -> {
 			f.setAccessible(true);
 
@@ -39,7 +39,7 @@ public class EntityToPreparedStatementMapper<T extends IDatabaseModel<?>> {
 		return namedParameterStatement;
 	}
 
-	public NamedParameterStatement mapParams(Map<String, ?> entity) {
+	public ConnectionAwareNamedParamStatement mapParams(Map<String, ?> entity) {
 		entity.forEach((key, value) -> {
 			try {
 				namedParameterStatement.setObject(key, value);
@@ -51,7 +51,7 @@ public class EntityToPreparedStatementMapper<T extends IDatabaseModel<?>> {
 		return namedParameterStatement;
 	}
 
-	public <V> NamedParameterStatement mapParams(List<String> colNames, List<V> values) {
+	public <V> ConnectionAwareNamedParamStatement mapParams(List<String> colNames, List<V> values) {
 		if (colNames.size() != values.size())
 			throw new IllegalArgumentException("Both lists must be of equal size");
 
@@ -64,7 +64,7 @@ public class EntityToPreparedStatementMapper<T extends IDatabaseModel<?>> {
 		return mapParams(map);
 	}
 
-	public <V> NamedParameterStatement mapParams(String colName, V value) {
+	public <V> ConnectionAwareNamedParamStatement mapParams(String colName, V value) {
 		return mapParams(List.of(colName), List.of(value));
 	}
 }

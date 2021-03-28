@@ -34,14 +34,14 @@ public class BlogPostResource extends MineCrossingResource<BlogPost, String> imp
 	public List<BlogPost> getLatest(int quantity) {
 		var blogPosts = new ArrayList<BlogPost>();
 
-		try {
-			var rs = getNamedParamStatement(
-					queryBuilder()
-							.select()
-							.orderBy(true, BlogPost.CREATED_DATE_COL)
-							.limit(quantity)
-							.build()
-			).executeQuery();
+		try (var ps = getNamedParamStatement(
+				queryBuilder()
+						.select()
+						.orderBy(true, BlogPost.CREATED_DATE_COL)
+						.limit(quantity)
+						.build()
+		)) {
+			var rs = ps.executeQuery();
 
 			while (rs.next())
 				blogPosts.add(new BlogPostBuilder().fromResultSet(rs).build());

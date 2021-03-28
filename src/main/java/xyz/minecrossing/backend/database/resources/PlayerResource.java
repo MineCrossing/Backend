@@ -30,8 +30,8 @@ public class PlayerResource extends MineCrossingResource<Player, String> impleme
 	public List<Player> findAll() {
 		var players = new ArrayList<Player>();
 
-		try {
-			var rs = getNamedParamStatement(queryBuilder().select().build()).executeQuery();
+		try (var ps = getNamedParamStatement(queryBuilder().select().build())) {
+			var rs = ps.executeQuery();
 			while (rs.next())
 				players.add(modelBuilder().fromResultSet(rs).build());
 
