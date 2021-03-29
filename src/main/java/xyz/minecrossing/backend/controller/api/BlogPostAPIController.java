@@ -2,16 +2,22 @@ package xyz.minecrossing.backend.controller.api;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.minecrossing.backend.controller.api.requests.CreateBlogCommentRequest;
 import xyz.minecrossing.backend.controller.api.requests.CreateBlogRequest;
+import xyz.minecrossing.backend.controller.api.viewmodels.BlogCommentVM;
 import xyz.minecrossing.backend.controller.api.viewmodels.BlogPostPreview;
 import xyz.minecrossing.backend.controller.api.viewmodels.builders.BlogPostPreviewBuilder;
 import xyz.minecrossing.backend.database.MineCrossingDB;
+import xyz.minecrossing.backend.database.builders.BlogCommentBuilder;
 import xyz.minecrossing.backend.database.builders.BlogPostBuilder;
 import xyz.minecrossing.backend.database.models.BlogPost;
 import xyz.minecrossing.backend.helpers.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -67,7 +73,8 @@ public class BlogPostAPIController implements BlogPostAPI {
 		return ResponseEntity.ok(db.BlogPosts.add(new BlogPostBuilder()
 				.setBlogPostID(UUID.randomUUID().toString())
 				.setAuthor(user.getUsername())
-				.setCreatedDate(LocalDateTime.now().minusDays(5 + new Random().nextInt(365)))
+				//.setCreatedDate(LocalDateTime.now().minusDays(5 + new Random().nextInt(365)))
+				.setCreatedDate(LocalDateTime.now())
 				.setTitle(body.getTitle())
 				.setSubtitle(body.getSubtitle())
 				.setContent(body.getContent())
@@ -79,5 +86,36 @@ public class BlogPostAPIController implements BlogPostAPI {
 	@Override
 	public ResponseEntity<BlogPost> getBlogPost(String id) {
 		return ResponseEntity.ok(db.BlogPosts.find(id));
+	}
+
+	@Override
+	public ResponseEntity<List<BlogCommentVM>> getBlogPostComments(String id) {
+		 return ResponseEntity.ok(db.BlogComments.findByBlogPostIDWithUsers(id));
+	}
+
+	@Override
+	public ResponseEntity<Boolean> createBlogComment(CreateBlogCommentRequest body) {
+		if (body == null || body.getUserID() < 1 || StringUtils.anyNullOrEmpty(body.getBlogPostID(), body.getMessage()))
+			return ResponseEntity.badRequest().body(false);
+
+		var user = db.Users.find(body.getUserID());
+
+		if (user == null)
+			return ResponseEntity.badRequest().body(false);
+
+		var blogPost = db.BlogPosts.find(body.getBlogPostID());
+
+		if (blogPost == null)
+			return ResponseEntity.badRequest().body(false);
+
+		return ResponseEntity.ok(db.BlogComments.add(new BlogCommentBuilder()
+				.setBlogCommentID(UUID.randomUUID().toString())
+				//.setCreatedDate(LocalDateTime.now().minusDays(5 + new Random().nextInt(365)))
+				.setCreatedDate(LocalDateTime.now())
+				.setUserID(user.getUserID())
+				.setBlogPostID(blogPost.getBlogPostID())
+				.setMessage(body.getMessage())
+				.build()
+		));
 	}
 }
