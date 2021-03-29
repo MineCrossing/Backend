@@ -20,10 +20,11 @@ public class ConnectionAwareNamedParamStatement extends NamedParameterStatement 
 	@Override
 	public void close() throws SQLException {
 		super.close();
-		if (connection != null && !connection.isClosed())
-			connection.close();
 
 		if (getStatement() != null && !getStatement().isClosed())
 			getStatement().close();
+
+		if (connection != null && !connection.isClosed())
+			connection.close();
 	}
 }

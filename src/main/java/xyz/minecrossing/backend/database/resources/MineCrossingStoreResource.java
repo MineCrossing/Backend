@@ -15,6 +15,10 @@ public abstract class MineCrossingStoreResource<T extends IDatabaseModel<K>, K> 
 
 		DatabaseConnector dbc = DatabaseConnector.getInstance();
 		try {
+			connection = dbc.getConnection("store-minecrossing");
+			if (connection != null && !connection.isClosed())
+				return connection;
+
 			var dataDatabaseProperties = new DatabaseProperties().loadProperties();
 			var dataBaseDetails = new DatabaseDetails(
 					dataDatabaseProperties.getHostname(),
