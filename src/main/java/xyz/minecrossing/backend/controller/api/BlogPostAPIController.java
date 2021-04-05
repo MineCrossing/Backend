@@ -14,10 +14,7 @@ import xyz.minecrossing.backend.database.models.BlogPost;
 import xyz.minecrossing.backend.helpers.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,6 +38,7 @@ public class BlogPostAPIController implements BlogPostAPI {
 						.setDate(b.getCreatedDate())
 						.setSubtitle(b.getSubtitle())
 						.setTitle(b.getTitle())
+						.setContent(b.getContent())
 						.setPreview(Arrays.stream(b.getContent().trim().split(" ")).limit(120).collect(Collectors.joining(" ")))
 						.build()
 				).collect(Collectors.toList());
@@ -57,7 +55,7 @@ public class BlogPostAPIController implements BlogPostAPI {
 	public ResponseEntity<List<BlogPostPreview>> getAllPreviewPosts() {
 		var blogPosts = db.BlogPosts.findAll();
 
-		return ResponseEntity.ok(toBlogPostPreview(blogPosts));
+		return ResponseEntity.ok(toBlogPostPreview(blogPosts).stream().sorted(Comparator.comparing(BlogPostPreview::getDate).reversed()).collect(Collectors.toList()));
 	}
 
 	@Override
@@ -70,8 +68,11 @@ public class BlogPostAPIController implements BlogPostAPI {
 		if (user == null)
 			return ResponseEntity.badRequest().body(false);
 
-		return ResponseEntity.ok(db.BlogPosts.add(new BlogPostBuilder()
-				.setBlogPostID(UUID.randomUUID().toString())
+		if (!db.AccessTokens.validate(body.getToken(), user.getUserID()))
+			return ResponseEntity.badRequest().body(false);
+
+		return ResponseEntity.ok(db.BlogPosts.addOrUpdate(new BlogPostBuilder()
+				.setBlogPostID(StringUtils.defaultIfEmpty(body.getBlogPostID(), UUID.randomUUID().toString()))
 				.setAuthor(user.getUsername())
 				//.setCreatedDate(LocalDateTime.now().minusDays(5 + new Random().nextInt(365)))
 				.setCreatedDate(LocalDateTime.now())

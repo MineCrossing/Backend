@@ -9,17 +9,19 @@ public class BlogPostPreview {
 	private String author;
 	private LocalDateTime date;
 	private String preview;
+	private String content;
 
 	public BlogPostPreview() {
 	}
 
-	public BlogPostPreview(String blogPostID, String title, String subtitle, String author, LocalDateTime date, String preview) {
+	public BlogPostPreview(String blogPostID, String title, String subtitle, String author, LocalDateTime date, String preview, String content) {
 		this.blogPostID = blogPostID;
 		this.title = title;
 		this.subtitle = subtitle;
 		this.author = author;
 		this.date = date;
 		this.preview = preview;
+		this.content = content;
 	}
 
 	public String getBlogPostID() {
@@ -68,5 +70,13 @@ public class BlogPostPreview {
 
 	public void setPreview(String preview) {
 		this.preview = preview;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 }

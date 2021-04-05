@@ -6,6 +6,8 @@ import xyz.minecrossing.backend.database.helpers.QueryBuilder;
 import xyz.minecrossing.backend.database.interfaces.IAccessTokenResource;
 import xyz.minecrossing.backend.database.models.AccessToken;
 
+import java.time.LocalDateTime;
+
 public class AccessTokenResource extends MineCrossingStoreResource<AccessToken, String> implements IAccessTokenResource {
 	@Override
 	protected QueryBuilder queryBuilder() {
@@ -30,5 +32,20 @@ public class AccessTokenResource extends MineCrossingStoreResource<AccessToken, 
 		token.setRevoked(true);
 
 		return update(token);
+	}
+
+	@Override
+	public boolean validate(String tokenID, int userID) {
+		var token = find(tokenID);
+
+		if (token == null || token.isRevoked() || token.getUserID() != userID)
+			return false;
+
+		if (LocalDateTime.now().isAfter(token.getExpiresAt())) {
+			revoke(token);
+			return false;
+		}
+
+		return true;
 	}
 }

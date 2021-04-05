@@ -12,4 +12,8 @@ public class StringUtils {
 		}
 		return false;
 	}
+
+	public static String defaultIfEmpty(String toCheck, String defaultValue) {
+		return isNullOrEmpty(toCheck) ? defaultValue : toCheck;
+	}
 }

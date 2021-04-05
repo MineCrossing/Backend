@@ -11,6 +11,7 @@ public class BlogPostPreviewBuilder {
 	private String author;
 	private LocalDateTime date;
 	private String preview;
+	private String content;
 
 	public BlogPostPreviewBuilder setBlogPostID(String blogPostID) {
 		this.blogPostID = blogPostID;
@@ -42,7 +43,12 @@ public class BlogPostPreviewBuilder {
 		return this;
 	}
 
+	public BlogPostPreviewBuilder setContent(String content) {
+		this.content = content;
+		return this;
+	}
+
 	public BlogPostPreview build() {
-		return new BlogPostPreview(blogPostID, title, subtitle, author, date, preview);
+		return new BlogPostPreview(blogPostID, title, subtitle, author, date, preview, content);
 	}
 }
