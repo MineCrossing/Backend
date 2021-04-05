@@ -16,4 +16,11 @@ public interface AuthAPI {
 	)
 	@ResponseStatus(HttpStatus.OK)
 	ResponseEntity<AuthResponse> checkAuth(@RequestBody AuthRequest body);
+
+	@PostMapping(
+			value = "/logout",
+			produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	@ResponseStatus(HttpStatus.OK)
+	ResponseEntity<Boolean> logout(@RequestBody AuthRequest body);
 }

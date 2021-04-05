@@ -31,4 +31,17 @@ public class AuthAPIController implements AuthAPI {
 
 		return ResponseEntity.ok().body(new AuthResponse(true, role.getRoleName().equalsIgnoreCase("admin"), user.getUserID()));
 	}
+
+	@Override
+	public ResponseEntity<Boolean> logout(AuthRequest body) {
+		if (body == null || StringUtils.isNullOrEmpty(body.getToken()))
+			return ResponseEntity.ok(true);
+
+		var token = db.AccessTokens.find(body.getToken());
+
+		if (token == null)
+			return ResponseEntity.ok(true);
+
+		return ResponseEntity.ok(db.AccessTokens.revoke(token));
+	}
 }
