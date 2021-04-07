@@ -1,4 +1,4 @@
-package xyz.minecrossing.backend.controller.api.chat;
+package xyz.minecrossing.backend.chat;
 
 import chat.tidy.event.EventHandler;
 import chat.tidy.event.PacketOutboundEvent;
