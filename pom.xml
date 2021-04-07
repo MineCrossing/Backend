@@ -65,6 +65,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- tidychat  -->
+        <dependency>
+            <groupId>chat.tidy</groupId>
+            <artifactId>tidychat-java</artifactId>
+            <version>1.0.0-netty-4.1.25</version>
+        </dependency>
 
         <!-- Spring Dependencies -->
         <dependency>
