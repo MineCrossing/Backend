@@ -5,7 +5,6 @@ import chat.tidy.listener.Listener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.lang.NonNullApi;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import xyz.minecrossing.backend.controller.api.chat.ConnectionListener;
@@ -32,11 +31,11 @@ public class BackendApplication {
         RedisConnector redisConnector = redisAPI.getRedisConnector();
         redisConnector.listenForChannel("gameChat", new ChatManager());
 
-        // Setup tidychat and create listeners for packets
+        // Setup tidychat
         TidyChat chat = TidyChat.getInstance();
         chat.setLoggerConsumer(s -> Logger.custom("tidychat", s)); // let tidychat use our logger
 
-        // Connect to tidycaht socket and register listeners
+        // Connect to tidychat socket and register listeners
         ChatFilter.connect(chat).whenComplete((socket, err) -> {
             if (err != null) {
                 Logger.error("Something went wrong connecting to tidychat!");

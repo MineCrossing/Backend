@@ -1,12 +1,16 @@
 package xyz.minecrossing.backend.helpers;
 
 import chat.tidy.TidyChat;
+import chat.tidy.event.PacketOutboundEvent;
+import chat.tidy.message.ChatMessage;
 import chat.tidy.socket.WebSocketClient;
+import chat.tidy.socket.packet.CheckMessageOutboundPacket;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class ChatFilter {
@@ -27,6 +31,18 @@ public class ChatFilter {
         });
 
         return future;
+    }
+
+    /**
+     * Create a ChatMessage and send it to tidychat to be filtered
+     *
+     * @param message The message to filter
+     */
+    public static void filterMessage(String message) {
+        UUID uuid = UUID.randomUUID();
+        UUID chatUUID = UUID.randomUUID();
+        ChatMessage chatMessage = new ChatMessage(chatUUID, message);
+        TidyChat.getInstance().getEventManager().callEvent(new PacketOutboundEvent(new CheckMessageOutboundPacket(uuid, chatMessage)));
     }
 
     /**

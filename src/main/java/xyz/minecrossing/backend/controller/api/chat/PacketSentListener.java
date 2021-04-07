@@ -17,9 +17,9 @@ public class PacketSentListener implements Listener {
         OutboundPacket packet = event.getPacket();
         if (packet instanceof CheckMessageOutboundPacket) {
             CheckMessageOutboundPacket out = (CheckMessageOutboundPacket) packet;
-            event.getTidyChat().getLoggerConsumer().accept(
-                    "Sending tidychat message: " + out.getChatMessage().getMessage()
-            );
+            String message = out.getChatMessage().getMessage();
+
+            event.getTidyChat().getLoggerConsumer().accept("Sending tidychat message: " + message);
         }
     }
 

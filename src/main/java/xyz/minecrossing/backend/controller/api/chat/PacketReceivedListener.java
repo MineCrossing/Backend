@@ -19,11 +19,9 @@ public class PacketReceivedListener implements Listener {
             CheckMessageInboundPacket in = (CheckMessageInboundPacket) packet;
             String message = in.getChatMessage().getMessage();
 
-            event.getTidyChat().getLoggerConsumer().accept(
-                    "Received cleaned message: " + message
-            );
+            event.getTidyChat().getLoggerConsumer().accept("Received cleaned message: " + message);
 
-            ChatManager.addMessage("[WEB] Anonymous: " + message);
+            ChatManager.addMessage("[WEB] Anonymous: " + message); // Send to chat box
         }
     }
 
