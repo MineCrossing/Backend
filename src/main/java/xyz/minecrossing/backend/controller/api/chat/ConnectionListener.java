@@ -4,7 +4,7 @@ import chat.tidy.event.ConnectionStateChangedEvent;
 import chat.tidy.event.EventHandler;
 import chat.tidy.listener.Listener;
 
-public class TidyChatConnection implements Listener {
+public class ConnectionListener implements Listener {
 
     @EventHandler
     public void onConnectionChange(ConnectionStateChangedEvent event) {

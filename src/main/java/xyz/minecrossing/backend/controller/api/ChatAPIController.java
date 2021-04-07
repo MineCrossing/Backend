@@ -1,5 +1,9 @@
 package xyz.minecrossing.backend.controller.api;
 
+import chat.tidy.TidyChat;
+import chat.tidy.event.PacketOutboundEvent;
+import chat.tidy.message.ChatMessage;
+import chat.tidy.socket.packet.CheckMessageOutboundPacket;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,6 +12,7 @@ import xyz.minecrossing.backend.minecraft.ChatManager;
 import xyz.minecrossing.coreutilities.Logger;
 
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class ChatAPIController implements ChatAPI {
@@ -21,16 +26,11 @@ public class ChatAPIController implements ChatAPI {
     public ResponseEntity<Object> send(Map<String, Object> body) {
         for (Map.Entry<String, Object> entry : body.entrySet()) {
             String msg = entry.getValue().toString();
-            ChatFilter.filter(msg).whenComplete((filteredMsg, error) -> {
-                if (error != null) {
-                    Logger.error("Error when filtering chat message:");
-                    error.printStackTrace();
-                    return;
-                }
 
-                Logger.info("Received message: " + filteredMsg);
-                ChatManager.addMessage("[WEB] Anonymous: " + filteredMsg);
-            });
+            UUID uuid = UUID.randomUUID();
+            UUID chatUUID = UUID.randomUUID();
+            ChatMessage chatMessage = new ChatMessage(chatUUID, msg);
+            TidyChat.getInstance().getEventManager().callEvent(new PacketOutboundEvent(new CheckMessageOutboundPacket(uuid, chatMessage)));
         }
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
