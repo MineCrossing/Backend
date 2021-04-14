@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BlogCommentResourceTests {
 	private BlogCommentResource blogComments;
-	private final int TEST_USER_ID = 666888999;
+	private final int TEST_USER_ID = 4;
 	private final String TEST_BLOG_POST_ID = "09f8bfec-8b2a-a47f-2cd4-61d2b52a8fe7";
 	private final String TEST_BLOG_COMMENT_ID = "8bf8bfec-8b2a-a47f-2cd4-6bb2b52a88ea";
 
@@ -56,6 +56,27 @@ public class BlogCommentResourceTests {
 
 	@Test
 	@Order(4)
+	void findByUserID() {
+		var comments = blogComments.findByUserID(TEST_USER_ID);
+		assertNotNull(comments);
+	}
+
+	@Test
+	@Order(5)
+	void findByBlogPostID() {
+		var comments = blogComments.findByBlogPostID(TEST_BLOG_POST_ID);
+		assertNotNull(comments);
+	}
+
+	@Test
+	@Order(6)
+	void findByBlogPostIDWithUsers() {
+		var comment = blogComments.findByBlogPostIDWithUsers(TEST_BLOG_POST_ID);
+		assertNotNull(comment.get(0).getUsername());
+	}
+
+	@Test
+	@Order(7)
 	void delete() {
 		var blogPost = blogComments.find(TEST_BLOG_COMMENT_ID);
 		var result = blogComments.delete(blogPost);

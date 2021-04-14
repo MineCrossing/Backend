@@ -6,10 +6,14 @@ public class StringUtils {
 	}
 
 	public static boolean anyNullOrEmpty(String... str) {
+		if (str == null)
+			return true;
+
 		for(var s : str) {
 			if (isNullOrEmpty(s))
 				return true;
 		}
+
 		return false;
 	}
 

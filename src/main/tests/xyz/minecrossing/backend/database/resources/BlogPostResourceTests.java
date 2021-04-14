@@ -61,4 +61,13 @@ public class BlogPostResourceTests {
 		var result = blogPosts.delete(blogPost);
 		assertTrue(result);
 	}
+
+	@Test
+	@Order(5)
+	void getLatest_ReturnsExpectedQuantity() {
+		var posts = blogPosts.getLatest(3);
+		var expectedCount = 3;
+
+		assertEquals(expectedCount, posts.size());
+	}
 }
