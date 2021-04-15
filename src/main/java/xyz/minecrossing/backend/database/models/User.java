@@ -5,6 +5,11 @@ import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
 import java.time.LocalDateTime;
 
+/**
+ * A POJO to map to the User schema
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class User implements IDatabaseModel<Integer> {
 	@ColName(col = USER_ID_COL)
 	private int userID;

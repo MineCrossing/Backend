@@ -16,6 +16,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An implementation of IBlogCommentResource
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class BlogCommentResource extends MineCrossingResource<BlogComment, String> implements IBlogCommentResource {
 
 	public BlogCommentResource() {
@@ -30,16 +35,45 @@ public class BlogCommentResource extends MineCrossingResource<BlogComment, Strin
 		return new BlogCommentBuilder();
 	}
 
+	/**
+	 * Finds a blog comment by ID
+	 *
+	 * @param id The ID to find the comment by
+	 * @return The BlogComment if a match is found, null if not
+	 */
+	@Override
+	public BlogComment find(String id) {
+		return find(BlogComment.BLOG_COMMENT_ID_COL, id);
+	}
+
+	/**
+	 * Finds all BlogComments by a given user ID
+	 *
+	 * @param userID The user ID to find the comments by
+	 * @return A List of BlogComments for the given user
+	 */
 	@Override
 	public List<BlogComment> findByUserID(int userID) {
 		return findBy(new ParamSpecification<>(BlogComment.USER_ID_COL, userID));
 	}
 
+	/**
+	 * Finds all BlogComments by a given BlogPost ID
+	 *
+	 * @param blogPostID The BlogPost ID to find the comments by
+	 * @return A List of BlogComments for the given post
+	 */
 	@Override
 	public List<BlogComment> findByBlogPostID(String blogPostID) {
 		return findBy(new ParamSpecification<>(BlogComment.BLOG_POST_ID_COL, blogPostID));
 	}
 
+	/**
+	 * Finds all BlogComments by a given BlogPost ID, including the username of the user who created the comment
+	 *
+	 * @param blogPostID The BlogPost ID to find the comments by
+	 * @return A List of BlogComments for the given post
+	 */
 	@Override
 	public List<BlogCommentVM> findByBlogPostIDWithUsers(String blogPostID) {
 		var foundEntities = new ArrayList<BlogCommentVM>();
@@ -68,10 +102,5 @@ public class BlogCommentResource extends MineCrossingResource<BlogComment, Strin
 		}
 
 		return foundEntities;
-	}
-
-	@Override
-	public BlogComment find(String id) {
-		return find(BlogComment.BLOG_COMMENT_ID_COL, id);
 	}
 }

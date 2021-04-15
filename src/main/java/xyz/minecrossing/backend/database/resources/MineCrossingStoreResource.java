@@ -8,6 +8,12 @@ import xyz.minecrossing.databaseconnector.DatabaseProperties;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * An extension of MineCrossingResource which targets the MineCrossingStore database rather than the MineCrossing database.
+ * This allows access to the AccessToken and User tables
+ *
+ * @author Matthew Dodds W18020972
+ */
 public abstract class MineCrossingStoreResource<T extends IDatabaseModel<K>, K> extends MineCrossingResource<T, K> {
 	@Override
 	public Connection getConnection() {

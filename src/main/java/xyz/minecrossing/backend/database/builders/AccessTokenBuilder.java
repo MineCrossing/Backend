@@ -6,6 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * An AccessToken model builder
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class AccessTokenBuilder extends ModelBuilder<AccessToken> {
 	private String accessTokenID;
 	private int userID;
@@ -17,6 +22,13 @@ public class AccessTokenBuilder extends ModelBuilder<AccessToken> {
 	private LocalDateTime updatedAt;
 	private LocalDateTime expiresAt;
 
+	/**
+	 * A method to build an object from a ResultSet
+	 *
+	 * @param rs The ResultSet containing the data with which to create the object
+	 * @return An instance of the object with data populated from the result set
+	 * @throws SQLException A potential exception which can be thrown if there is an issue retrieving data from the ResultSet
+	 */
 	@Override
 	public ModelBuilder<AccessToken> fromResultSet(ResultSet rs) throws SQLException {
 		accessTokenID = rs.getString(AccessToken.ACCESS_TOKEN_ID_COL);
@@ -77,6 +89,11 @@ public class AccessTokenBuilder extends ModelBuilder<AccessToken> {
 		return this;
 	}
 
+	/**
+	 * A method to build the object
+	 *
+	 * @return An instance of the object
+	 */
 	@Override
 	public AccessToken build() {
 		return new AccessToken(accessTokenID, userID, clientID, tokenName, scopes, revoked, createdAt, updatedAt, expiresAt);

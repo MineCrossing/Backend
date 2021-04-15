@@ -5,6 +5,11 @@ import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
 import java.time.LocalDateTime;
 
+/**
+ * A POJO to map to the BlogComment schema
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class BlogComment implements IDatabaseModel<String> {
 	@ColName(col = BLOG_COMMENT_ID_COL)
 	private String blogCommentID;

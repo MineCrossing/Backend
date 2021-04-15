@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * An implementation of IBlogPostResource
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class BlogPostResource extends MineCrossingResource<BlogPost, String> implements IBlogPostResource {
 
 	public BlogPostResource() {
@@ -25,11 +30,23 @@ public class BlogPostResource extends MineCrossingResource<BlogPost, String> imp
 		return new BlogPostBuilder();
 	}
 
+	/**
+	 * Finds a BlogPost by the given ID
+	 *
+	 * @param id The ID to search with
+	 * @return A matching BlogPost or null if there are no matches
+	 */
 	@Override
 	public BlogPost find(String id) {
 		return find(BlogPost.BLOG_POST_ID_COL, id);
 	}
 
+	/**
+	 * Returns the latest number of BlogPosts by a given quantity
+	 *
+	 * @param quantity The number of posts to return
+	 * @return The requested number of posts
+	 */
 	@Override
 	public List<BlogPost> getLatest(int quantity) {
 		var blogPosts = new ArrayList<BlogPost>();

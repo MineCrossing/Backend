@@ -5,6 +5,11 @@ import xyz.minecrossing.backend.database.models.Player;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * An Player model builder
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class PlayerBuilder extends ModelBuilder<Player> {
 	private String playerID;
 	private String name;
@@ -17,6 +22,13 @@ public class PlayerBuilder extends ModelBuilder<Player> {
 	private int logins;
 	private int quests;
 
+	/**
+	 * A method to build an object from a ResultSet
+	 *
+	 * @param rs The ResultSet containing the data with which to create the object
+	 * @return An instance of the object with data populated from the result set
+	 * @throws SQLException A potential exception which can be thrown if there is an issue retrieving data from the ResultSet
+	 */
 	@Override
 	public ModelBuilder<Player> fromResultSet(ResultSet rs) throws SQLException {
 		playerID = rs.getString(Player.PLAYER_ID_COL);
@@ -83,6 +95,11 @@ public class PlayerBuilder extends ModelBuilder<Player> {
 		return this;
 	}
 
+	/**
+	 * A method to build the object
+	 *
+	 * @return An instance of the object
+	 */
 	@Override
 	public Player build() {
 		return new Player(playerID, name, time, level, kills, deaths, wins, losses, logins, quests);

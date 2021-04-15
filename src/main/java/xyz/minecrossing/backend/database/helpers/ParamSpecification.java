@@ -1,5 +1,11 @@
 package xyz.minecrossing.backend.database.helpers;
 
+/**
+ * A simple class for passing column names and values between objects
+ *
+ * @param <T> The value type
+ * @author Matthew Dodds W18020972
+ */
 public class ParamSpecification<T> {
 	private String colName;
 	private T colValue;

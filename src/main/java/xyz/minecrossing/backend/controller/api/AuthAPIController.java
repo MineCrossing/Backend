@@ -7,6 +7,11 @@ import xyz.minecrossing.backend.controller.api.responses.AuthResponse;
 import xyz.minecrossing.backend.database.MineCrossingDB;
 import xyz.minecrossing.backend.helpers.StringUtils;
 
+/**
+ * An implementation of AuthApi
+ *
+ * @author Matthew Dodds W18020972
+ */
 @RestController
 public class AuthAPIController implements AuthAPI {
 	private final MineCrossingDB db;
@@ -15,6 +20,12 @@ public class AuthAPIController implements AuthAPI {
 		db = MineCrossingDB.getInstance();
 	}
 
+	/**
+	 * A method to validate an authentication request
+	 *
+	 * @param body The authentication credentials
+	 * @return A response indicating whether the login was successful and whether or not the user is an administrator
+	 */
 	@Override
 	public ResponseEntity<AuthResponse> checkAuth(AuthRequest body) {
 		if (body == null || body.getUserId() == 0 || StringUtils.isNullOrEmpty(body.getToken()))
@@ -32,6 +43,12 @@ public class AuthAPIController implements AuthAPI {
 		return ResponseEntity.ok().body(new AuthResponse(true, role.getRoleName().equalsIgnoreCase("admin"), user.getUserID()));
 	}
 
+	/**
+	 * A method to handle logging a user out
+	 *
+	 * @param body the authentication credentials
+	 * @return True if logout was successful, false if an error occurs
+	 */
 	@Override
 	public ResponseEntity<Boolean> logout(AuthRequest body) {
 		if (body == null || StringUtils.isNullOrEmpty(body.getToken()))

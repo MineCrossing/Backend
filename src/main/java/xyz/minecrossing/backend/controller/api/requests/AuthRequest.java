@@ -1,5 +1,10 @@
 package xyz.minecrossing.backend.controller.api.requests;
 
+/**
+ * A class to store data relating to a user authentication request
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class AuthRequest {
 	private int userId;
 	private String token;

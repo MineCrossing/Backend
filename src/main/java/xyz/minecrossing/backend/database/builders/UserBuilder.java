@@ -8,6 +8,11 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * An User model builder
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class UserBuilder extends ModelBuilder<User> {
 	private int userID;
 	private int roleID;
@@ -21,6 +26,13 @@ public class UserBuilder extends ModelBuilder<User> {
 	private String settings;
 	private String rememberToken;
 
+	/**
+	 * A method to build an object from a ResultSet
+	 *
+	 * @param rs The ResultSet containing the data with which to create the object
+	 * @return An instance of the object with data populated from the result set
+	 * @throws SQLException A potential exception which can be thrown if there is an issue retrieving data from the ResultSet
+	 */
 	public UserBuilder fromResultSet(ResultSet rs) throws SQLException {
 		Timestamp createdDate =  rs.getTimestamp(User.CREATED_DATE_COL);
 		Timestamp updatedDate =  rs.getTimestamp(User.UPDATE_DATE_COL);
@@ -96,6 +108,12 @@ public class UserBuilder extends ModelBuilder<User> {
 		return this;
 	}
 
+	/**
+	 * A method to build the object
+	 *
+	 * @return An instance of the object
+	 */
+	@Override
 	public User build() {
 		return new User(userID, roleID, username, email, password, avatarPath, emailVerifiedAt, createdDate, updatedDate, settings, rememberToken);
 	}

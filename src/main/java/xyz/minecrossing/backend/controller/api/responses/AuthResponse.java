@@ -1,5 +1,10 @@
 package xyz.minecrossing.backend.controller.api.responses;
 
+/**
+ * A class to store data relating to the result of an authentication request
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class AuthResponse {
 	private boolean loggedIn;
 	private boolean admin;

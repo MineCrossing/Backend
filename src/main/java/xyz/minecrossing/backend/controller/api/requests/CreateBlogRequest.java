@@ -2,6 +2,11 @@ package xyz.minecrossing.backend.controller.api.requests;
 
 import java.util.UUID;
 
+/**
+ * A class to store data relating to a request to create a new blog post
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class CreateBlogRequest {
 	private int userID;
 	private String blogPostID = UUID.randomUUID().toString();

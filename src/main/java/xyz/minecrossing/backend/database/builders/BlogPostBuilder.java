@@ -7,6 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * An BlogPost model builder
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class BlogPostBuilder extends ModelBuilder<BlogPost> {
 	private String blogPostID;
 	private int userID;
@@ -16,6 +21,13 @@ public class BlogPostBuilder extends ModelBuilder<BlogPost> {
 	private String content;
 	private LocalDateTime createdDate;
 
+	/**
+	 * A method to build an object from a ResultSet
+	 *
+	 * @param rs The ResultSet containing the data with which to create the object
+	 * @return An instance of the object with data populated from the result set
+	 * @throws SQLException A potential exception which can be thrown if there is an issue retrieving data from the ResultSet
+	 */
 	public BlogPostBuilder fromResultSet(ResultSet rs) throws SQLException {
 		blogPostID = rs.getString(BlogPost.BLOG_POST_ID_COL);
 		userID = rs.getInt(BlogPost.USER_ID_COL);
@@ -63,6 +75,12 @@ public class BlogPostBuilder extends ModelBuilder<BlogPost> {
 		return this;
 	}
 
+	/**
+	 * A method to build the object
+	 *
+	 * @return An instance of the object
+	 */
+	@Override
 	public BlogPost build() {
 		return new BlogPost(blogPostID, userID, title, subtitle, author, content, createdDate);
 	}

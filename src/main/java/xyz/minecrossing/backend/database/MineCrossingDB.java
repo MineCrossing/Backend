@@ -3,6 +3,11 @@ package xyz.minecrossing.backend.database;
 import xyz.minecrossing.backend.database.interfaces.*;
 import xyz.minecrossing.backend.database.resources.*;
 
+/**
+ * A store of ICRUDResources which allow for accessing the MineCrossing database
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class MineCrossingDB {
 	public final IUserResource Users;
 	public final IBlogPostResource BlogPosts;
@@ -22,6 +27,11 @@ public class MineCrossingDB {
 		AccessTokens = new AccessTokenResource();
 	}
 
+	/**
+	 * Returns an instance of the database class
+	 *
+	 * @return An instance of the database class
+	 */
 	public static MineCrossingDB getInstance() {
 		if (instance == null)
 			instance = new MineCrossingDB();

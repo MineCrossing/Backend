@@ -5,6 +5,11 @@ import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
 import java.time.LocalDateTime;
 
+/**
+ * A POJO to map to the AccessToken schema
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class AccessToken implements IDatabaseModel<String> {
 	@ColName(col = ACCESS_TOKEN_ID_COL)
 	private String accessTokenID;

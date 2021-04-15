@@ -3,6 +3,11 @@ package xyz.minecrossing.backend.database.models;
 import xyz.minecrossing.backend.database.interfaces.ColName;
 import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
+/**
+ * A POJO to map to the Player schema
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class Player implements IDatabaseModel<String> {
 	@ColName(col = PLAYER_ID_COL)
 	private String playerID;

@@ -17,6 +17,11 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * An implementation of BlogPostAPI
+ *
+ * @author Matthew Dodds W18020972
+ */
 @RestController
 public class BlogPostAPIController implements BlogPostAPI {
 	private final MineCrossingDB db;
@@ -44,6 +49,11 @@ public class BlogPostAPIController implements BlogPostAPI {
 				).collect(Collectors.toList());
 	}
 
+	/**
+	 * A method to get the 3 most recently created blog posts
+	 *
+	 * @return A list containing the latest blog posts
+	 */
 	@Override
 	public ResponseEntity<List<BlogPostPreview>> getPreviewPosts() {
 		var blogPosts = db.BlogPosts.getLatest(3);
@@ -51,6 +61,11 @@ public class BlogPostAPIController implements BlogPostAPI {
 		return ResponseEntity.ok(toBlogPostPreview(blogPosts));
 	}
 
+	/**
+	 * A method to get all blog posts
+	 *
+	 * @return A list containing all blog posts
+	 */
 	@Override
 	public ResponseEntity<List<BlogPostPreview>> getAllPreviewPosts() {
 		var blogPosts = db.BlogPosts.findAll();
@@ -58,6 +73,12 @@ public class BlogPostAPIController implements BlogPostAPI {
 		return ResponseEntity.ok(toBlogPostPreview(blogPosts).stream().sorted(Comparator.comparing(BlogPostPreview::getDate).reversed()).collect(Collectors.toList()));
 	}
 
+	/**
+	 * A method to create a new blog post
+	 *
+	 * @param body The details of the blog post to be created
+	 * @return True if successful, false otherwise
+	 */
 	@Override
 	public ResponseEntity<Boolean> createBlogPost(CreateBlogRequest body) {
 		if (body == null || StringUtils.anyNullOrEmpty(body.getContent(), body.getSubtitle(), body.getTitle()))
@@ -74,7 +95,6 @@ public class BlogPostAPIController implements BlogPostAPI {
 		return ResponseEntity.ok(db.BlogPosts.addOrUpdate(new BlogPostBuilder()
 				.setBlogPostID(StringUtils.defaultIfEmpty(body.getBlogPostID(), UUID.randomUUID().toString()))
 				.setAuthor(user.getUsername())
-				//.setCreatedDate(LocalDateTime.now().minusDays(5 + new Random().nextInt(365)))
 				.setCreatedDate(LocalDateTime.now())
 				.setTitle(body.getTitle())
 				.setSubtitle(body.getSubtitle())
@@ -84,16 +104,34 @@ public class BlogPostAPIController implements BlogPostAPI {
 		));
 	}
 
+	/**
+	 * A method to lookup a blog post by ID
+	 *
+	 * @param id The ID of the blog post
+	 * @return A blog post if a matching ID is found, null otherwise
+	 */
 	@Override
 	public ResponseEntity<BlogPost> getBlogPost(String id) {
 		return ResponseEntity.ok(db.BlogPosts.find(id));
 	}
 
+	/**
+	 * A method to get all of the blog comments for a given blog post ID
+	 *
+	 * @param id The blog post ID to lookup comments by
+	 * @return A list of blog comments which match the given blog post ID
+	 */
 	@Override
 	public ResponseEntity<List<BlogCommentVM>> getBlogPostComments(String id) {
 		 return ResponseEntity.ok(db.BlogComments.findByBlogPostIDWithUsers(id));
 	}
 
+	/**
+	 * A method to create a new blog comment
+	 *
+	 * @param body The details of the comment to be created
+	 * @return True if successful, false otherwise
+	 */
 	@Override
 	public ResponseEntity<Boolean> createBlogComment(CreateBlogCommentRequest body) {
 		if (body == null || body.getUserID() < 1 || StringUtils.anyNullOrEmpty(body.getBlogPostID(), body.getMessage()))
@@ -111,7 +149,6 @@ public class BlogPostAPIController implements BlogPostAPI {
 
 		return ResponseEntity.ok(db.BlogComments.add(new BlogCommentBuilder()
 				.setBlogCommentID(UUID.randomUUID().toString())
-				//.setCreatedDate(LocalDateTime.now().minusDays(5 + new Random().nextInt(365)))
 				.setCreatedDate(LocalDateTime.now())
 				.setUserID(user.getUserID())
 				.setBlogPostID(blogPost.getBlogPostID())

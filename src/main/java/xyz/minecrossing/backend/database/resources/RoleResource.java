@@ -6,7 +6,11 @@ import xyz.minecrossing.backend.database.helpers.QueryBuilder;
 import xyz.minecrossing.backend.database.interfaces.IRoleResource;
 import xyz.minecrossing.backend.database.models.Role;
 
-
+/**
+ * An implementation of IRoleResource
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class RoleResource extends MineCrossingStoreResource<Role, Integer> implements IRoleResource {
 
 	public RoleResource() {
@@ -22,6 +26,12 @@ public class RoleResource extends MineCrossingStoreResource<Role, Integer> imple
 		return new RoleBuilder();
 	}
 
+	/**
+	 * Find an object by ID
+	 *
+	 * @param id The ID to search by
+	 * @return An object if a match is found, null otherwise
+	 */
 	@Override
 	public Role find(Integer id) {
 		return find(Role.ROLE_ID_COL, id);

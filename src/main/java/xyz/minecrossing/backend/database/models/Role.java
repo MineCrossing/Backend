@@ -5,6 +5,11 @@ import xyz.minecrossing.backend.database.interfaces.IDatabaseModel;
 
 import java.time.LocalDateTime;
 
+/**
+ * A POJO to map to the Role schema
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class Role implements IDatabaseModel<Integer> {
 	@ColName(col = ROLE_ID_COL)
 	private int roleID;

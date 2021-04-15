@@ -1,5 +1,10 @@
 package xyz.minecrossing.backend.controller.api.requests;
 
+/**
+ * A class to store data relating to a request to create a new blog comment
+ *
+ * @author Matthew Dodds W18020972
+ */
 public class CreateBlogCommentRequest {
 	private String blogPostID;
 	private int userID;
