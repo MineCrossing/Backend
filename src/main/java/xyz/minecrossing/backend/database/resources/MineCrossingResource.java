@@ -1,7 +1,7 @@
 package xyz.minecrossing.backend.database.resources;
 
 import xyz.minecrossing.backend.database.builders.ModelBuilder;
-import xyz.minecrossing.backend.database.helpers.ConnectionAwareNamedParamStatement;
+import xyz.minecrossing.backend.database.helpers.AutoCloseNamedParamStatement;
 import xyz.minecrossing.backend.database.helpers.EntityToPreparedStatementMapper;
 import xyz.minecrossing.backend.database.helpers.ParamSpecification;
 import xyz.minecrossing.backend.database.helpers.QueryBuilder;
@@ -37,8 +37,8 @@ public abstract class MineCrossingResource<T extends IDatabaseModel<K>, K> imple
 		return connection;
 	}
 
-	public ConnectionAwareNamedParamStatement getNamedParamStatement(String query) throws SQLException {
-		return new ConnectionAwareNamedParamStatement(
+	public AutoCloseNamedParamStatement getNamedParamStatement(String query) throws SQLException {
+		return new AutoCloseNamedParamStatement(
 				getConnection(),
 				query,
 				false);

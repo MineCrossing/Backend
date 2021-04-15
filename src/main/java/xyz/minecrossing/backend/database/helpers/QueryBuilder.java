@@ -84,11 +84,6 @@ public class QueryBuilder {
 		return update(List.of(columnNames));
 	}
 
-	public QueryBuilder customWhere(String where) {
-		this.queryWhere = formatWhere(where);
-		return this;
-	}
-
 	public QueryBuilder where(String columnName) {
 		return where(columnName, defaultOperator);
 	}

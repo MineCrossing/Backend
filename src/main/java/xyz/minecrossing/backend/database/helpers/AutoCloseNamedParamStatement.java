@@ -5,16 +5,12 @@ import org.sql2o.tools.NamedParameterStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class ConnectionAwareNamedParamStatement extends NamedParameterStatement implements AutoCloseable {
+public class AutoCloseNamedParamStatement extends NamedParameterStatement implements AutoCloseable {
 	private final Connection connection;
 
-	public ConnectionAwareNamedParamStatement(Connection connection, String query, boolean returnGeneratedKeys) throws SQLException {
+	public AutoCloseNamedParamStatement(Connection connection, String query, boolean returnGeneratedKeys) throws SQLException {
 		super(connection, query, returnGeneratedKeys);
 		this.connection = connection;
-	}
-
-	public Connection getConnection() {
-		return connection;
 	}
 
 	@Override

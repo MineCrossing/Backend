@@ -49,7 +49,11 @@ public class AccessTokenResourceTests {
 	@Test
 	@Order(3)
 	void findBy() {
-		var token = accessTokens.findBy(new ParamSpecification<>(AccessToken.ACCESS_TOKEN_ID_COL, TEST_ACCESS_TOKEN_ID));
+		var paramSpec = new ParamSpecification<>(AccessToken.ACCESS_TOKEN_ID_COL, TEST_ACCESS_TOKEN_ID);
+		paramSpec.setColName(AccessToken.ACCESS_TOKEN_ID_COL);
+		paramSpec.setColValue(TEST_ACCESS_TOKEN_ID);
+
+		var token = accessTokens.findBy(paramSpec);
 		assertNotNull(token);
 	}
 
@@ -74,6 +78,22 @@ public class AccessTokenResourceTests {
 
 	@Test
 	@Order(6)
+	void validate_NullReturnsFalse() {
+		assertFalse(accessTokens.validate(null, TEST_USER_ID));
+	}
+
+	@Test
+	@Order(7)
+	void validate_ExpiredReturnsFalse() {
+		var token = accessTokens.find(TEST_ACCESS_TOKEN_ID);
+		token.setExpiresAt(LocalDateTime.now().minusDays(30));
+		accessTokens.update(token);
+
+		assertFalse(accessTokens.validate(TEST_ACCESS_TOKEN_ID, TEST_USER_ID));
+	}
+
+	@Test
+	@Order(8)
 	void revoke() {
 		var token = accessTokens.find(TEST_ACCESS_TOKEN_ID);
 		assertTrue(accessTokens.revoke(token));
@@ -81,7 +101,7 @@ public class AccessTokenResourceTests {
 
 
 	@Test
-	@Order(7)
+	@Order(9)
 	void delete() {
 		var token = accessTokens.find(TEST_ACCESS_TOKEN_ID);
 		var result = accessTokens.delete(token);

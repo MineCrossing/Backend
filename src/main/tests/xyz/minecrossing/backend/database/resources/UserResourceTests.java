@@ -36,6 +36,8 @@ public class UserResourceTests {
 				.setCreatedDate(LocalDateTime.now())
 				.setUpdatedDate(LocalDateTime.now())
 				.setEmailVerifiedAt(LocalDateTime.now())
+				.setRememberToken("1234")
+				.setSettings("[]")
 				.build());
 
 		assertTrue(result);
