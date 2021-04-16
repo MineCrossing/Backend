@@ -9,14 +9,16 @@ public class CreateBlogCommentRequest {
 	private String blogPostID;
 	private int userID;
 	private String message;
+	private String tokenID;
 
 	public CreateBlogCommentRequest() {
 	}
 
-	public CreateBlogCommentRequest(String blogPostID, int userID, String message) {
+	public CreateBlogCommentRequest(String blogPostID, int userID, String message, String tokenID) {
 		this.blogPostID = blogPostID;
 		this.userID = userID;
 		this.message = message;
+		this.tokenID = tokenID;
 	}
 
 	public String getBlogPostID() {
@@ -41,5 +43,13 @@ public class CreateBlogCommentRequest {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getTokenID() {
+		return tokenID;
+	}
+
+	public void setTokenID(String tokenID) {
+		this.tokenID = tokenID;
 	}
 }

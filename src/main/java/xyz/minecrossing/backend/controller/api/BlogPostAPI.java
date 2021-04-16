@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import xyz.minecrossing.backend.controller.api.requests.CreateBlogCommentRequest;
 import xyz.minecrossing.backend.controller.api.requests.CreateBlogRequest;
+import xyz.minecrossing.backend.controller.api.requests.DeleteBlogRequest;
 import xyz.minecrossing.backend.controller.api.viewmodels.BlogCommentVM;
 import xyz.minecrossing.backend.controller.api.viewmodels.BlogPostPreview;
 import xyz.minecrossing.backend.database.models.BlogPost;
@@ -44,6 +45,15 @@ public interface BlogPostAPI {
 	 */
 	@PostMapping(value = "/blogposts/create", produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<Boolean> createBlogPost(@RequestBody CreateBlogRequest body);
+
+	/**
+	 * A method to delete a blog post
+	 *
+	 * @param body The details of the blog post to be deleted
+	 * @return True if successful, false otherwise
+	 */
+	@PostMapping(value = "/blogposts/delete", produces = MediaType.APPLICATION_JSON_VALUE)
+	ResponseEntity<Boolean> deleteBlogPost(@RequestBody DeleteBlogRequest body);
 
 	/**
 	 * A method to lookup a blog post by ID

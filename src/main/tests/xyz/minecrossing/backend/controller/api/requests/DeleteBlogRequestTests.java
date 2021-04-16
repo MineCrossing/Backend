@@ -6,19 +6,19 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class CreateBlogCommentRequestTests {
-	private CreateBlogCommentRequest object;
+public class DeleteBlogRequestTests {
+	private DeleteBlogRequest object;
 	private final String sampleString = "123";
 	private final int sampleInt = 1;
 
 	@BeforeEach
 	void setup() {
-		object = new CreateBlogCommentRequest();
+		object = new DeleteBlogRequest();
 	}
 
 	@Test
 	void constructor() {
-		object = new CreateBlogCommentRequest(sampleString, sampleInt, sampleString, sampleString);
+		object = new DeleteBlogRequest(sampleInt, sampleString, sampleString);
 		assertNotNull(object);
 	}
 
@@ -29,21 +29,14 @@ public class CreateBlogCommentRequestTests {
 	}
 
 	@Test
-	void getSetUserID() {
-		object.setUserID(sampleInt);
-		assertEquals(sampleInt, object.getUserID());
-	}
-
-	@Test
-	void getSetMessage() {
-		object.setMessage(sampleString);
-		assertEquals(sampleString, object.getMessage());
-	}
-
-
-	@Test
 	void getSetTokenID() {
 		object.setTokenID(sampleString);
 		assertEquals(sampleString, object.getTokenID());
 	}
+
+	@Test
+	void getSetUserID() {
+		object.setUserID(sampleInt);
+		assertEquals(sampleInt, object.getUserID());
 	}
+}
