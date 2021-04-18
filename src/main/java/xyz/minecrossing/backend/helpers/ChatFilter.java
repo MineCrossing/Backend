@@ -43,11 +43,13 @@ public class ChatFilter {
      *
      * @param message The message to filter
      */
-    public static void filterMessage(String message) {
+    public static ChatMessage filterMessage(String message) {
         UUID uuid = UUID.randomUUID();
         UUID chatUUID = UUID.randomUUID();
         ChatMessage chatMessage = new ChatMessage(chatUUID, message);
         TidyChat.getInstance().getEventManager().callEvent(new PacketOutboundEvent(new CheckMessageOutboundPacket(uuid, chatMessage)));
+
+        return chatMessage;
     }
 
     /**

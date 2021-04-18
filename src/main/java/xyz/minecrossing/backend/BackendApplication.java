@@ -16,6 +16,12 @@ import xyz.minecrossing.coreutilities.Logger;
 import xyz.minecrossing.redisapi.RedisAPI;
 import xyz.minecrossing.redisapi.redis.RedisConnector;
 
+/**
+ * Main class for the application containing Spring Boot setup and initialisation
+ * of the Redis API and TidyChat as well as registering listeners and security policies.
+ *
+ * @author Thomas Griffiths W18013094
+ */
 @SpringBootApplication
 public class BackendApplication {
 
@@ -57,7 +63,7 @@ public class BackendApplication {
      *
      * @param listeners The list of listeners
      */
-    private static void registerListeners(Listener... listeners) {
+    protected static void registerListeners(Listener... listeners) {
         for (Listener listener : listeners) {
             TidyChat.getInstance().getEventManager().registerListener(listener);
         }
