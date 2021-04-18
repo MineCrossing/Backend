@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.minecrossing.backend.controller.api.requests.CreateBlogCommentRequest;
 import xyz.minecrossing.backend.controller.api.requests.CreateBlogRequest;
+import xyz.minecrossing.backend.controller.api.requests.DeleteBlogCommentRequest;
 import xyz.minecrossing.backend.controller.api.requests.DeleteBlogRequest;
 import xyz.minecrossing.backend.controller.api.viewmodels.BlogCommentVM;
 import xyz.minecrossing.backend.controller.api.viewmodels.BlogPostPreview;
@@ -186,5 +187,23 @@ public class BlogPostAPIController implements BlogPostAPI {
 			return ResponseEntity.badRequest().body(false);
 
 		return ResponseEntity.ok(db.BlogPosts.delete(blogPost));
+	}
+
+	@Override
+	public ResponseEntity<Boolean> deleteBlogComment(DeleteBlogCommentRequest body) {
+		if (body == null || body.getUserID() < 1 || StringUtils.anyNullOrEmpty(body.getBlogCommentID(), body.getTokenID()))
+			return ResponseEntity.badRequest().body(false);
+
+		var user = db.Users.find(body.getUserID());
+
+		if (user == null)
+			return ResponseEntity.badRequest().body(false);
+
+		if (!db.AccessTokens.validate(body.getTokenID(), user.getUserID()))
+			return ResponseEntity.badRequest().body(false);
+
+		var blogComment = db.BlogComments.find(body.getBlogCommentID());
+
+		return ResponseEntity.ok(db.BlogComments.delete(blogComment));
 	}
 }

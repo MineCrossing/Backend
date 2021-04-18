@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import xyz.minecrossing.backend.controller.api.requests.CreateBlogCommentRequest;
 import xyz.minecrossing.backend.controller.api.requests.CreateBlogRequest;
+import xyz.minecrossing.backend.controller.api.requests.DeleteBlogCommentRequest;
 import xyz.minecrossing.backend.controller.api.requests.DeleteBlogRequest;
 import xyz.minecrossing.backend.controller.api.viewmodels.BlogCommentVM;
 import xyz.minecrossing.backend.controller.api.viewmodels.BlogPostPreview;
@@ -81,4 +82,13 @@ public interface BlogPostAPI {
 	 */
 	@PostMapping(value = "/blogposts/createComment", produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<Boolean> createBlogComment(@RequestBody CreateBlogCommentRequest body);
+
+	/**
+	 * A method to create a new blog comment
+	 *
+	 * @param body The details of the comment to be created
+	 * @return True if successful, false otherwise
+	 */
+	@PostMapping(value = "/blogposts/deleteComment", produces = MediaType.APPLICATION_JSON_VALUE)
+	ResponseEntity<Boolean> deleteBlogComment(@RequestBody DeleteBlogCommentRequest body);
 }

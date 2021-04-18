@@ -18,6 +18,12 @@ public class BlogCommentVMTests {
 	}
 
 	@Test
+	void getSetCommentID() {
+		object.setBlogCommentID(sampleString);
+		assertEquals(sampleString, object.getBlogCommentID());
+	}
+
+	@Test
 	void getSetMessage() {
 		object.setMessage(sampleString);
 		assertEquals(sampleString, object.getMessage());

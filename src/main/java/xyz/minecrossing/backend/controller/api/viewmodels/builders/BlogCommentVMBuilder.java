@@ -5,6 +5,7 @@ import xyz.minecrossing.backend.controller.api.viewmodels.BlogCommentVM;
 import java.time.LocalDateTime;
 
 public class BlogCommentVMBuilder {
+	private String blogCommentID;
 	private String message;
 	private String username;
 	private String avatar;
@@ -30,7 +31,12 @@ public class BlogCommentVMBuilder {
 		return this;
 	}
 
+	public BlogCommentVMBuilder setBlogCommentID(String blogCommentID) {
+		this.blogCommentID = blogCommentID;
+		return this;
+	}
+
 	public BlogCommentVM build() {
-		return new BlogCommentVM(message, username, avatar, createdDate);
+		return new BlogCommentVM(blogCommentID, message, username, avatar, createdDate);
 	}
 }

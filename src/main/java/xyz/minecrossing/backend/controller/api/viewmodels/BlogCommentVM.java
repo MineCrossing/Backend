@@ -3,6 +3,7 @@ package xyz.minecrossing.backend.controller.api.viewmodels;
 import java.time.LocalDateTime;
 
 public class BlogCommentVM {
+	private String blogCommentID;
 	private String message;
 	private String username;
 	private String avatar;
@@ -11,11 +12,20 @@ public class BlogCommentVM {
 	public BlogCommentVM() {
 	}
 
-	public BlogCommentVM(String message, String username, String avatar, LocalDateTime createdDate) {
+	public BlogCommentVM(String blogCommentID, String message, String username, String avatar, LocalDateTime createdDate) {
+		this.blogCommentID = blogCommentID;
 		this.message = message;
 		this.username = username;
 		this.avatar = avatar;
 		this.createdDate = createdDate;
+	}
+
+	public String getBlogCommentID() {
+		return blogCommentID;
+	}
+
+	public void setBlogCommentID(String blogCommentID) {
+		this.blogCommentID = blogCommentID;
 	}
 
 	public String getMessage() {

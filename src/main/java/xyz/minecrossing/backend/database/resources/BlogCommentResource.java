@@ -88,6 +88,7 @@ public class BlogCommentResource extends MineCrossingResource<BlogComment, Strin
 
 			while (resultSet.next()) {
 				foundEntities.add(new BlogCommentVMBuilder()
+					.setBlogCommentID(resultSet.getString(BlogComment.BLOG_COMMENT_ID_COL))
 					.setMessage(resultSet.getString(BlogComment.MESSAGE_COL))
 					.setUsername(resultSet.getString(User.USERNAME_COL))
 					.setAvatar(resultSet.getString(User.AVATAR_COL))
