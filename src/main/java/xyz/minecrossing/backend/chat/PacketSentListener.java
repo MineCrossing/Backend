@@ -9,6 +9,8 @@ import xyz.minecrossing.coreutilities.Logger;
 
 /**
  * Event for when a packet is sent out to tidychat to process a message
+ *
+ * @author Thomas Griffiths W18013094
  */
 public class PacketSentListener implements Listener {
 

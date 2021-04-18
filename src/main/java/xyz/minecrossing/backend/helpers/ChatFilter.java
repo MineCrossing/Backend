@@ -13,6 +13,11 @@ import java.io.InputStreamReader;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Utility class containing tidychat helper methods
+ *
+ * @author Thomas Griffiths W18013094
+ */
 public class ChatFilter {
 
     /**

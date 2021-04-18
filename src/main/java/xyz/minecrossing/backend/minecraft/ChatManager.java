@@ -5,6 +5,11 @@ import xyz.minecrossing.redisapi.redis.RedisChannelListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Chat Manager class to manage adding messages to the cache and receiving messages from Redis
+ *
+ * @author Thomas Griffiths W18013094
+ */
 public class ChatManager implements RedisChannelListener {
 
     private static final List<String> MESSAGES = new ArrayList<>();

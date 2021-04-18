@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
+/**
+ * An implementation of the RootAPI interface acting as a root path and error handler for the API
+ */
 @RestController
 public class RootAPIController implements RootAPI, ErrorController {
 

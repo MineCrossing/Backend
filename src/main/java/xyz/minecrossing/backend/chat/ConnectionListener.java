@@ -4,6 +4,11 @@ import chat.tidy.event.ConnectionStateChangedEvent;
 import chat.tidy.event.EventHandler;
 import chat.tidy.listener.Listener;
 
+/**
+ * A tidychat event to listen to the connection to the service and log it
+ *
+ * @author Thomas Griffiths W18013094
+ */
 public class ConnectionListener implements Listener {
 
     @EventHandler

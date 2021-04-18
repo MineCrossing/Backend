@@ -8,6 +8,11 @@ import xyz.minecrossing.backend.minecraft.ChatManager;
 
 import java.util.Map;
 
+/**
+ * An implementation of the ChatAPI interface
+ *
+ * @author Thomas Griffiths W18013094
+ */
 @RestController
 public class ChatAPIController implements ChatAPI {
 

@@ -9,6 +9,8 @@ import xyz.minecrossing.backend.minecraft.ChatManager;
 
 /**
  * Event for when a packet is received from tidychat with a cleaned message
+ *
+ * @author Thomas Griffiths W18013094
  */
 public class PacketReceivedListener implements Listener {
 
