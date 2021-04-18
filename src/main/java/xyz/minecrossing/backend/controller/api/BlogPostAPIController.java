@@ -1,5 +1,6 @@
 package xyz.minecrossing.backend.controller.api;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.minecrossing.backend.controller.api.requests.CreateBlogCommentRequest;
@@ -189,6 +190,12 @@ public class BlogPostAPIController implements BlogPostAPI {
 		return ResponseEntity.ok(db.BlogPosts.delete(blogPost));
 	}
 
+	/**
+	 * A method to delete a blog post comment
+	 *
+	 * @param body The details of the comment to be deleted
+	 * @return True if successful, false otherwise
+	 */
 	@Override
 	public ResponseEntity<Boolean> deleteBlogComment(DeleteBlogCommentRequest body) {
 		if (body == null || body.getUserID() < 1 || StringUtils.anyNullOrEmpty(body.getBlogCommentID(), body.getTokenID()))
@@ -200,7 +207,7 @@ public class BlogPostAPIController implements BlogPostAPI {
 			return ResponseEntity.badRequest().body(false);
 
 		if (!db.AccessTokens.validate(body.getTokenID(), user.getUserID()))
-			return ResponseEntity.badRequest().body(false);
+			return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
 
 		var blogComment = db.BlogComments.find(body.getBlogCommentID());
 
